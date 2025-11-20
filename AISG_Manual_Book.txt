@@ -1,0 +1,1478 @@
+================================================================================
+                    AISG - AUDIT INTELLIGENCE SG
+                   MANUAL BOOK & SISTEM DOKUMENTASI
+================================================================================
+
+Versi: 1.0
+Tanggal: 23 Oktober 2025
+Platform: Web Application (Full-stack JavaScript/TypeScript)
+
+================================================================================
+                        DAFTAR ISI
+================================================================================
+
+1. LATAR BELAKANG & TUJUAN SISTEM
+2. FITUR-FITUR UTAMA
+3. ARSITEKTUR SISTEM
+4. PANDUAN PENGGUNAAN
+5. KELEBIHAN SISTEM
+6. KEKURANGAN & KETERBATASAN
+7. TEKNOLOGI YANG DIGUNAKAN
+8. TROUBLESHOOTING
+9. BIAYA OPERASIONAL
+10. ROADMAP PENGEMBANGAN
+
+================================================================================
+1. LATAR BELAKANG & TUJUAN SISTEM
+================================================================================
+
+AISG (Audit Intelligence SG) adalah platform audit performa karyawan berbasis
+korporat enterprise yang dirancang untuk mengevaluasi performa karyawan dan
+leadership menggunakan framework standar 18 Pilar.
+
+MENGAPA AISG DIBUTUHKAN?
+------------------------
+a) Evaluasi Subjektif Manual:
+   - Sebelumnya, audit performa dilakukan manual menggunakan spreadsheet
+   - Tidak ada standarisasi scoring dan penilaian
+   - Sulit tracking historical performance quarter-to-quarter
+   - Rekomendasi ProDem (Promotion-Demotion) tidak data-driven
+
+b) Kompleksitas Framework 18 Pilar:
+   - Framework 18 Pilar memiliki aturan scoring yang kompleks
+   - Perhitungan Reality Score, Behavioral Zone, dan Performance Zone 
+     memerlukan algoritma yang konsisten
+   - Manual calculation prone to human error
+
+c) Kurangnya Insight Personalisasi:
+   - Karyawan tidak mendapat feedback yang actionable
+   - Tidak ada coaching atau motivasi yang personalized
+   - Sulit identifikasi gap antara self-assessment vs expected standard
+
+TUJUAN SISTEM AISG:
+-------------------
+1. STANDARDISASI: Menyediakan framework audit yang konsisten dan terukur
+2. AUTOMATION: Mengotomasi perhitungan kompleks (Reality Score, Zona, ProDem)
+3. TRANSPARENCY: Memberikan visibility penuh kepada karyawan tentang hasil audit
+4. ACTIONABLE INSIGHTS: Menyediakan AI Coach untuk personalized guidance
+5. DATA-DRIVEN DECISIONS: Membantu manajemen membuat keputusan ProDem yang objektif
+6. QUARTERLY TRACKING: Monitoring performa kuartalan (Q1-Q4) untuk trend analysis
+
+STAKEHOLDER UTAMA:
+------------------
+- Karyawan: Business Manager (BsM), Sales Business Manager (SBM), etc.
+- Auditor: Tim HR/Performance Management yang melakukan evaluasi
+- Manajemen: Leadership yang menggunakan data untuk strategic decisions
+
+================================================================================
+2. FITUR-FITUR UTAMA
+================================================================================
+
+2.1 MULTI-STEP AUDIT FORM (5 LANGKAH)
+--------------------------------------
+
+STEP 1: INFORMASI PERSONAL
+- Input: Nama, Jabatan, Cabang, Tanggal Lahir
+- Validasi: Semua field wajib diisi
+- Jabatan options: Business Manager (BsM), Sales Business Manager (SBM), dll.
+
+STEP 2: PERFORMA QUARTERLY (Q1-Q4)
+- Input Data Tim:
+  * Margin Tim Q1, Q2, Q3, Q4 (dalam Rupiah)
+  * New Account (NA) Tim Q1, Q2, Q3, Q4 (jumlah nasabah baru)
+  
+- Input Data Pribadi (NEW!):
+  * Margin Pribadi Q1, Q2, Q3, Q4 (kontribusi personal)
+  * Nasabah Pribadi Q1, Q2, Q3, Q4 (akuisisi personal)
+
+- Fitur UX:
+  * Input number yang clean (tidak ada bug "010000")
+  * Value 0 ditampilkan sebagai placeholder kosong
+  * Format Rupiah otomatis dengan separator
+
+STEP 3: STRUKTUR TIM (TEAM HIERARCHY)
+- Input jumlah:
+  * Business Consultant (BC)
+  * Senior Business Consultant (SBC)
+  * Business Manager (BsM)
+  * Senior Business Manager (SBM)
+  * Executive Manager (EM)
+  * Senior Executive Manager (SEM)
+  * Vice Business Manager (VBM)
+
+- Validasi: Minimal 1 team member harus diisi
+- Purpose: Menentukan complexity leadership dan span of control
+
+STEP 4: 18 PILAR SELF-ASSESSMENT
+- Framework: 18 kategori kompetensi dengan skala 1-5
+- UI: Radio button (bukan slider!) untuk familiarity
+- Scoring:
+  * 1 = Sangat Kurang
+  * 2 = Kurang
+  * 3 = Cukup
+  * 4 = Baik
+  * 5 = Sangat Baik
+
+- 18 Pilar meliputi:
+  1. Integritas & Etika Kerja
+  2. Komunikasi Efektif
+  3. Kepemimpinan Tim
+  4. Problem Solving & Decision Making
+  5. Manajemen Waktu & Prioritas
+  6. Kolaborasi Antar Divisi
+  7. Adaptabilitas & Fleksibilitas
+  8. Pengetahuan Produk
+  9. Customer Service Excellence
+  10. Sales & Negotiation Skills
+  11. Target Achievement & KPI
+  12. Financial & Business Acumen
+  13. Coaching & Mentoring
+  14. Conflict Resolution
+  15. Strategic Thinking
+  16. Innovation & Continuous Improvement
+  17. Emotional Intelligence
+  18. Company Culture & Values Alignment
+
+STEP 5: REVIEW & SUBMIT
+- Summary semua data yang diinput
+- Tombol "Edit" untuk kembali ke step sebelumnya
+- Submit → Generate full audit report + redirect ke detail page
+
+2.2 AUDIT REPORT (12 SECTION COMPREHENSIVE)
+--------------------------------------------
+
+Section 1: EXECUTIVE SUMMARY
+- Overview singkat hasil audit
+- Reality Score total (max 90)
+- Zona Final (Success/Warning/Critical)
+- Profil Karyawan (Consistency/Balance/Zone-based)
+
+Section 2: REALITY SCORE CALCULATOR
+- Total score dari 18 Pilar self-assessment
+- Perbandingan vs expected score
+- Visual indicator zona performance
+
+Section 3: PERFORMANCE ZONE
+- Analisis berdasarkan margin & NA quarterly
+- Zona: Success (🟩), Warning (🟨), atau Critical (🟥)
+- Trend quarterly performance
+
+Section 4: BEHAVIORAL ZONE
+- Analisis pola behavioral berdasarkan 18 Pilar
+- Identifikasi strength & weakness areas
+- Rekomendasi behavioral improvement
+
+Section 5: PROFIL KARYAWAN
+- Tipe profil: Consistency Expert, Balanced Performer, dll.
+- Karakteristik profil detail
+- Strength & area for development
+
+Section 6: SWOT ANALYSIS
+- Strengths: Kelebihan berdasarkan data
+- Weaknesses: Area yang perlu improvement
+- Opportunities: Peluang growth
+- Threats: Risk factors yang perlu diwaspadai
+
+Section 7: EARLY WARNING SYSTEM (EWS)
+- Identifikasi red flags dalam performa
+- Risk level assessment
+- Preventive action recommendations
+
+Section 8: ACTION PLAN 30-60-90
+- 30 hari pertama: Quick wins & foundational changes
+- 60 hari: Skill development & process improvement
+- 90 hari: Strategic initiatives & long-term goals
+
+Section 9: PRODEM RECOMMENDATION
+- Recommendation: Promosi, Demotion, atau Hold
+- Reasoning: Data-driven justification
+- Strategy: Save by Margin vs Save by Staff rotation
+- Timeline: Kapan evaluasi ulang dilakukan
+
+Section 10: MAGIC SECTION (PERSONALIZED MOTIVATION)
+- Zodiac-based motivational quote
+- Personalized booster message
+- Gamification element untuk engagement
+
+Section 11-12: ADDITIONAL INSIGHTS
+- Team dynamics analysis
+- Quarterly trend comparison
+- Historical performance tracking (jika ada)
+
+2.3 AI CHAT INTEGRATION (GPT-4o)
+---------------------------------
+
+FITUR:
+- Context-aware AI Coach yang memahami full audit context
+- Chat history persistence (tersimpan di database)
+- Export chat history ke TXT file
+- Clear chat history function
+- Real-time streaming responses (future enhancement)
+
+CARA PAKAI:
+1. Buka audit detail page
+2. Lihat helper text: "💬 Mari kita diskusikan hasil auditnya!"
+3. Ketik pertanyaan di input field: "Ketik pertanyaan Anda disini..."
+4. Klik tombol Send (icon pesawat kertas)
+5. AI akan respond dalam 5-10 detik
+
+CONTOH PERTANYAAN:
+- "Bagaimana performa saya secara keseluruhan?"
+- "Apa area yang paling perlu saya improve?"
+- "Mengapa saya mendapat rekomendasi Hold?"
+- "Bagaimana cara mencapai zona Success di Q1 nanti?"
+- "Apa strategi terbaik untuk improve Reality Score saya?"
+
+AI CAPABILITIES:
+- Analisis mendalam berdasarkan data audit
+- Rekomendasi actionable yang spesifik
+- Tone profesional tapi friendly (Bahasa Indonesia)
+- Reference ke Action Plan 30-60-90
+- Motivasi berdasarkan profil karyawan
+
+ERROR HANDLING:
+- Jika OpenAI quota habis: "Maaf, layanan AI sedang mencapai batas penggunaan"
+- User message tetap tersimpan walaupun AI error
+- Chat history auto-refresh setelah send
+
+2.4 PDF EXPORT
+--------------
+
+FITUR:
+- Export full audit report ke PDF professional
+- Include semua 12 section
+- Professional formatting dengan logo & branding
+- File naming: "Audit-[Nama]-[Tanggal].pdf"
+
+CARA PAKAI:
+1. Buka audit detail page
+2. Klik tombol "Download PDF" (icon download)
+3. PDF otomatis download ke device
+
+KONTEN PDF:
+- Cover page dengan info karyawan
+- Executive Summary
+- All 12 sections dengan formatting rapi
+- Charts & visual indicators (zona, score, dll)
+- Footer dengan timestamp & system info
+
+2.5 AUDIT MANAGEMENT
+--------------------
+
+VIEW ALL AUDITS:
+- List semua audit yang pernah dibuat
+- Card-based UI dengan key info visible
+- Zona color-coding (green/yellow/red)
+- Filter by employee name (search functionality)
+
+VIEW AUDIT DETAIL:
+- Full 12-section report
+- AI Chat panel di sidebar
+- Action buttons: Download PDF, Delete Audit
+
+DELETE AUDIT:
+- Confirmation dialog untuk prevent accidental delete
+- Cascade deletion: hapus audit + chat history
+- User-friendly feedback toast
+
+================================================================================
+3. ARSITEKTUR SISTEM
+================================================================================
+
+3.1 TECH STACK
+--------------
+
+FRONTEND:
+- Framework: React 18 dengan TypeScript
+- Build Tool: Vite (fast development & build)
+- Routing: Wouter (lightweight client-side routing)
+- State Management: TanStack Query (React Query v5)
+- Form Handling: React Hook Form + Zod validation
+- UI Components: shadcn/ui (Radix UI primitives)
+- Styling: Tailwind CSS + Custom CSS variables
+- Icons: Lucide React
+
+BACKEND:
+- Runtime: Node.js dengan Express.js
+- Language: TypeScript
+- Validation: Zod schemas (shared dengan frontend)
+- API Design: RESTful JSON API
+
+DATABASE:
+- PostgreSQL (Neon serverless)
+- ORM: Drizzle ORM
+- Migrations: Drizzle Kit
+- Connection: @neondatabase/serverless dengan pooling
+
+AI INTEGRATION:
+- Provider: OpenAI GPT-4o
+- Library: openai npm package
+- Model: gpt-4o (most capable omni model)
+- Max Tokens: 500 per response
+- Temperature: 0.7 (balanced creativity)
+
+3.2 DATABASE SCHEMA
+-------------------
+
+TABLE: users
+- id (UUID primary key)
+- username (varchar, unique)
+- password (varchar, hashed)
+- email (varchar, unique)
+- role (varchar: 'auditor', 'manager', 'admin')
+- createdAt (timestamp)
+
+TABLE: branches
+- id (UUID primary key)
+- name (varchar)
+- region (varchar)
+- createdAt (timestamp)
+
+TABLE: audits
+- id (UUID primary key)
+- nama (varchar) - Employee name
+- jabatan (varchar) - Position
+- cabang (varchar) - Branch
+- tanggalLahir (varchar) - Birth date
+- marginTimQ1, Q2, Q3, Q4 (integer) - Team margin quarterly
+- naTimQ1, Q2, Q3, Q4 (integer) - Team NA quarterly
+- marginPribadiQ1, Q2, Q3, Q4 (integer) - Personal margin quarterly (NEW!)
+- nasabahPribadiQ1, Q2, Q3, Q4 (integer) - Personal NA quarterly (NEW!)
+- jumlahBC, SBC, BsM, SBM, EM, SEM, VBM (integer) - Team structure
+- pillarAnswers (jsonb) - 18 Pilar self-assessment scores
+- totalRealityScore (integer) - Calculated total score
+- zonaPerforma (varchar) - Performance zone
+- zonaBehavioral (varchar) - Behavioral zone
+- zonaFinal (varchar) - Final zone
+- profil (varchar) - Employee profile type
+- magicSection (jsonb) - Personalized motivation data
+- prodemRekomendasi (jsonb) - ProDem recommendation details
+- createdAt (timestamp)
+
+TABLE: chatMessages
+- id (UUID primary key)
+- auditId (UUID, foreign key CASCADE to audits)
+- role (varchar: 'user' or 'assistant')
+- content (text)
+- createdAt (timestamp)
+
+INDEXES:
+- audits.nama (for search by name)
+- audits.createdAt (for sorting)
+- chatMessages.auditId (for chat history queries)
+
+3.3 API ENDPOINTS
+-----------------
+
+POST /api/audit
+- Body: Full audit data (personal info + quarterly + team + 18 pilar)
+- Returns: Calculated audit result dengan all 12 sections
+- Processing: Calls business-logic.ts untuk perhitungan kompleks
+
+GET /api/audits
+- Returns: Array of all audits (list view)
+- Sorting: By createdAt DESC (newest first)
+
+GET /api/audit/:id
+- Returns: Single audit detail by ID
+- 404 if not found
+
+GET /api/audits/name/:name
+- Returns: Array of audits filtered by employee name
+- Case-insensitive search
+
+DELETE /api/audit/:id
+- Cascade delete: Hapus chat history dulu, lalu audit
+- Returns: Success message
+
+POST /api/chat
+- Body: { auditId, message }
+- Processing:
+  1. Save user message to DB
+  2. Load chat history (last 10 messages)
+  3. Build system prompt with audit context
+  4. Call OpenAI GPT-4o API
+  5. Save AI response to DB
+  6. Return AI response
+- Error Handling: 429 for rate limit, 500 for general error
+
+GET /api/chat/:auditId
+- Returns: Array of chat messages for audit
+- Ordered by createdAt ASC (oldest first)
+
+DELETE /api/chat/:auditId
+- Clear all chat history for audit
+- Returns: Success message
+
+GET /api/audit/:id/pdf
+- Generates PDF on-the-fly using pdfkit
+- Returns: PDF file stream
+- Content-Disposition: attachment (auto download)
+
+3.4 BUSINESS LOGIC (CORE ALGORITHMS)
+-------------------------------------
+
+FILE: server/business-logic.ts
+
+FUNCTION: processAudit(data)
+- Input: Raw audit form data
+- Output: Processed audit dengan calculated fields
+
+STEPS:
+1. Calculate Total Reality Score (sum of 18 pilar scores)
+2. Determine Performance Zone:
+   - Aggregate quarterly margin & NA
+   - Compare vs thresholds
+   - Assign: Success (🟩), Warning (🟨), Critical (🟥)
+
+3. Determine Behavioral Zone:
+   - Analyze 18 pilar score distribution
+   - Identify patterns (consistent, improving, declining)
+   - Assign behavioral zona
+
+4. Determine Final Zone:
+   - Weighted combination of performance + behavioral
+   - Final decision: Success/Warning/Critical
+
+5. Generate Employee Profile:
+   - Pattern recognition dari quarterly data
+   - Types: Consistency Expert, Balanced Performer, Rising Star, dll.
+   - Based on: variance, trend, zone distribution
+
+6. Generate SWOT Analysis:
+   - Strengths: Top 3 pilar scores + zona success areas
+   - Weaknesses: Bottom 3 pilar scores + zona critical areas
+   - Opportunities: Growth potential based on trend
+   - Threats: Risk factors dari EWS
+
+7. Generate ProDem Recommendation:
+   - Algorithm:
+     * IF zona = Success + trending up → PROMOSI
+     * IF zona = Critical + trending down → DEMOTION
+     * ELSE → HOLD (with improvement plan)
+   - Strategy: Save by Margin vs Save by Staff (rotation)
+   - Timeline: 1-3 months evaluation period
+
+8. Generate Magic Section:
+   - Zodiac calculation dari tanggal lahir
+   - Load motivational quote based on zodiac + profil
+   - Personalized booster message
+   - Gamification elements
+
+9. Generate Action Plan 30-60-90:
+   - 30 days: Quick wins (low-hanging fruits)
+   - 60 days: Skill development (training, coaching)
+   - 90 days: Strategic initiatives (process changes)
+   - Prioritized based on weaknesses & opportunities
+
+10. Generate EWS (Early Warning System):
+    - Red flags detection:
+      * Declining quarterly trend (3+ quarters)
+      * Reality Score < 50% of max
+      * Critical zona for 2+ consecutive quarters
+      * High variance in team structure
+    - Risk level: Low/Medium/High
+    - Preventive actions recommended
+
+================================================================================
+4. PANDUAN PENGGUNAAN
+================================================================================
+
+4.1 UNTUK KARYAWAN (SELF-ASSESSMENT)
+-------------------------------------
+
+LANGKAH 1: AKSES SISTEM
+- Buka web browser (Chrome, Firefox, Safari, Edge)
+- Navigate ke URL: https://[your-replit-url].replit.app
+- Klik tombol "Buat Audit Baru"
+
+LANGKAH 2: ISI INFORMASI PERSONAL
+- Nama: Isi nama lengkap Anda
+- Jabatan: Pilih dari dropdown (BsM, SBM, dll)
+- Cabang: Isi nama cabang tempat Anda bekerja
+- Tanggal Lahir: Format DD-MM-YYYY (contoh: 15-08-1990)
+- Klik "Lanjut"
+
+LANGKAH 3: ISI PERFORMA QUARTERLY
+- Margin Tim Q1-Q4: Isi total margin tim per quarter (dalam Rupiah)
+- NA Tim Q1-Q4: Isi jumlah New Account tim per quarter
+- Margin Pribadi Q1-Q4: Isi kontribusi margin personal Anda
+- Nasabah Pribadi Q1-Q4: Isi jumlah NA yang Anda acquire sendiri
+- Tips: Isi minimal 1 quarter untuk dapat hasil yang valid
+- Klik "Lanjut"
+
+LANGKAH 4: ISI STRUKTUR TIM
+- Isi jumlah team member di bawah Anda untuk setiap level
+- BC: Business Consultant (entry level)
+- SBC: Senior BC
+- BsM: Business Manager
+- Dan seterusnya...
+- Isi 0 jika tidak ada team member di level tersebut
+- Klik "Lanjut"
+
+LANGKAH 5: 18 PILAR SELF-ASSESSMENT
+- Baca setiap pilar dengan seksama
+- Pilih radio button 1-5 sesuai self-assessment Anda:
+  * 1 = Sangat Kurang (butuh banyak improvement)
+  * 2 = Kurang (masih di bawah ekspektasi)
+  * 3 = Cukup (memenuhi standar minimal)
+  * 4 = Baik (di atas ekspektasi)
+  * 5 = Sangat Baik (exceptional, role model)
+- Jujur dalam penilaian untuk hasil yang akurat!
+- Klik "Lanjut"
+
+LANGKAH 6: REVIEW & SUBMIT
+- Periksa kembali semua data yang diisi
+- Jika ada yang salah, klik "Edit" untuk kembali
+- Jika sudah yakin, klik "Submit Audit"
+- Sistem akan proses dan redirect ke hasil audit
+
+LANGKAH 7: BACA HASIL AUDIT
+- Executive Summary: Overview performa Anda
+- Reality Score: Total score dari 18 Pilar
+- Zona: Lihat warna zona Anda (hijau/kuning/merah)
+- Profil: Kenali tipe profil karyawan Anda
+- SWOT: Pahami strength & weakness Anda
+- Action Plan: Ikuti rekomendasi 30-60-90 hari
+- ProDem: Lihat rekomendasi promosi/demotion/hold
+
+LANGKAH 8: CHAT DENGAN AI COACH (OPSIONAL)
+- Scroll ke panel chat di kanan (atau bawah di mobile)
+- Ketik pertanyaan di input field
+- Contoh: "Bagaimana cara improve Reality Score saya?"
+- Klik tombol Send (icon pesawat)
+- Tunggu 5-10 detik, AI akan respond
+- Chat history tersimpan, bisa dilanjutkan kapan saja
+
+LANGKAH 9: DOWNLOAD PDF (OPSIONAL)
+- Klik tombol "Download PDF" di header audit
+- PDF akan otomatis download
+- Simpan untuk referensi atau print jika perlu
+
+4.2 UNTUK AUDITOR/MANAGER
+--------------------------
+
+MELIHAT SEMUA AUDIT:
+- Dashboard menampilkan semua audit yang pernah dibuat
+- Card-based view dengan info key:
+  * Nama karyawan
+  * Jabatan & Cabang
+  * Reality Score
+  * Zona (color-coded)
+  * Tanggal audit
+- Scroll untuk lihat lebih banyak
+
+FILTER BY NAME:
+- Gunakan search bar (jika ada) untuk filter by nama karyawan
+- Real-time filtering saat mengetik
+
+VIEW DETAIL AUDIT:
+- Klik card audit untuk lihat full detail
+- Baca 12 section comprehensive report
+- Review chat history AI (jika ada)
+
+MONITOR TREND:
+- Bandingkan quarterly performance Q1-Q4
+- Identifikasi trending up/down
+- Proactive intervention jika detect early warning
+
+MAKE DECISIONS:
+- Gunakan ProDem recommendation sebagai guidance
+- Cross-reference dengan SWOT & Action Plan
+- Data-driven decision making untuk promosi/demotion
+
+4.3 TIPS & BEST PRACTICES
+--------------------------
+
+UNTUK KARYAWAN:
+1. Lakukan self-assessment secara jujur (bukan over/under estimate)
+2. Review hasil audit dengan seksama, fokus pada Action Plan
+3. Gunakan AI Chat untuk klarifikasi yang tidak Anda pahami
+4. Set goals berdasarkan 30-60-90 day action plan
+5. Re-audit setiap quarter untuk track improvement
+6. Download PDF untuk personal record
+
+UNTUK AUDITOR:
+1. Review audit results dengan karyawan (1-on-1 session)
+2. Diskusikan SWOT & Action Plan secara konstruktif
+3. Monitor quarterly trend, bukan single snapshot
+4. Gunakan EWS untuk preventive intervention
+5. Data dari audit sebagai objektif basis, tapi tetap consider context
+6. Encourage penggunaan AI Chat untuk self-learning
+
+================================================================================
+5. KELEBIHAN SISTEM
+================================================================================
+
+5.1 KELEBIHAN TEKNIS
+--------------------
+
+a) AUTOMATION & SPEED
+   ✅ Perhitungan kompleks (Reality Score, Zona, ProDem) otomatis dalam seconds
+   ✅ Eliminasi manual calculation error
+   ✅ Instant report generation (tidak perlu tunggu berhari-hari)
+
+b) STANDARDIZATION & CONSISTENCY
+   ✅ Framework 18 Pilar applied konsisten ke semua karyawan
+   ✅ Scoring algorithm yang sama untuk fairness
+   ✅ Reproducible results (audit yang sama = hasil yang sama)
+
+c) DATA PERSISTENCE & HISTORY
+   ✅ Semua audit tersimpan di database PostgreSQL
+   ✅ Chat history persistence untuk continuous learning
+   ✅ Quarterly data tracking untuk trend analysis
+   ✅ Audit trail untuk accountability
+
+d) SCALABILITY
+   ✅ Cloud-based (Replit) → bisa handle banyak user concurrent
+   ✅ PostgreSQL serverless (Neon) → auto-scaling database
+   ✅ Stateless backend → horizontal scaling ready
+   ✅ Responsive UI → works di desktop, tablet, mobile
+
+e) USER EXPERIENCE
+   ✅ Multi-step form dengan clear navigation
+   ✅ Radio button (bukan slider) → familiar UX
+   ✅ Input validation real-time → prevent error
+   ✅ Loading states & error handling yang jelas
+   ✅ Dark mode support untuk eye comfort
+   ✅ Professional UI dengan shadcn/ui components
+
+f) AI INTEGRATION
+   ✅ GPT-4o (most capable model) → intelligent responses
+   ✅ Context-aware → AI paham full audit context
+   ✅ Bahasa Indonesia yang natural & profesional
+   ✅ Actionable insights, bukan generic advice
+
+g) EXPORT & PORTABILITY
+   ✅ PDF export untuk dokumentasi offline
+   ✅ Chat export untuk reference
+   ✅ Professional formatting untuk presentasi
+
+5.2 KELEBIHAN BISNIS
+--------------------
+
+a) OBJEKTIFITAS & FAIRNESS
+   ✅ Mengurangi bias subjektif dalam evaluasi
+   ✅ Data-driven ProDem recommendations
+   ✅ Transparent criteria untuk promosi/demotion
+
+b) ACTIONABLE INSIGHTS
+   ✅ Bukan hanya score, tapi juga "what to do next"
+   ✅ 30-60-90 action plan yang konkret
+   ✅ SWOT analysis untuk strategic planning
+
+c) EMPLOYEE DEVELOPMENT
+   ✅ Self-assessment capability untuk self-awareness
+   ✅ AI Coach untuk personalized learning
+   ✅ Clear development path via Action Plan
+
+d) EARLY WARNING SYSTEM
+   ✅ Proactive identification of performance issues
+   ✅ Preventive action sebelum jadi masalah besar
+   ✅ Risk mitigation untuk business continuity
+
+e) COST EFFICIENCY
+   ✅ Reduce man-hours untuk manual audit (dari days → minutes)
+   ✅ Paperless → save printing & filing costs
+   ✅ Reusable → unlimited audits tanpa additional cost per audit
+
+f) GAMIFICATION & ENGAGEMENT
+   ✅ Magic Section dengan zodiac motivation → fun factor
+   ✅ Visual zona (green/yellow/red) → clear goal
+   ✅ Reality Score → competitive element
+
+================================================================================
+6. KEKURANGAN & KETERBATASAN
+================================================================================
+
+6.1 KETERBATASAN TEKNIS
+-----------------------
+
+a) DEPENDENCY PADA INTERNET
+   ❌ System 100% web-based → butuh internet connection
+   ❌ Tidak ada offline mode
+   ❌ Jika internet down, sistem tidak bisa diakses
+   
+   Mitigasi: Deploy di cloud reliable (Replit) dengan 99.9% uptime
+
+b) AI QUOTA LIMITATION
+   ❌ OpenAI API ada quota limit → bisa error jika quota habis
+   ❌ Butuh top-up API credit ($5-10/month tergantung usage)
+   ❌ ChatGPT Plus subscription tidak cover API usage
+   
+   Mitigasi: 
+   - Monitor usage via OpenAI dashboard
+   - Set up billing alerts
+   - Alternative: Switch ke Google Gemini (free tier generous)
+
+c) SINGLE DATABASE INSTANCE
+   ❌ Hanya 1 PostgreSQL database (no backup/replica automatic)
+   ❌ Jika database corrupt, data bisa hilang
+   ❌ No disaster recovery plan built-in
+   
+   Mitigasi:
+   - Neon PostgreSQL has automatic backups
+   - Consider setting up manual backup cron job
+   - Export critical data regularly
+
+d) NO REAL-TIME COLLABORATION
+   ❌ Tidak ada multi-user edit audit bersamaan
+   ❌ No version control untuk audit (satu audit = final result)
+   ❌ No commenting/approval workflow
+   
+   Future Enhancement: Add audit workflow (draft → review → approved)
+
+e) LIMITED AUTHENTICATION
+   ❌ Belum ada proper user authentication & authorization
+   ❌ Semua user bisa lihat semua audit (no access control)
+   ❌ No role-based permissions (auditor vs manager vs karyawan)
+   
+   Future Enhancement: Implement Replit Auth atau session-based auth
+
+f) MOBILE RESPONSIVENESS
+   ❌ UI optimized untuk desktop, tapi mobile experience bisa lebih baik
+   ❌ Chat panel di mobile agak cramped
+   ❌ PDF generation di mobile sometimes tricky
+   
+   Future Enhancement: Native mobile app atau Progressive Web App (PWA)
+
+6.2 KETERBATASAN BISNIS
+------------------------
+
+a) MANUAL DATA ENTRY
+   ❌ Semua data harus diisi manual (tidak ada integration dengan HRIS)
+   ❌ Prone to human error saat input
+   ❌ Time-consuming jika audit banyak karyawan sekaligus
+   
+   Future Enhancement: Import dari Excel/CSV, API integration dengan HRIS
+
+b) SELF-ASSESSMENT BIAS
+   ❌ 18 Pilar based on self-assessment → bisa biased (over/under estimate)
+   ❌ Tidak ada cross-validation dengan manager assessment
+   ❌ No 360-degree feedback dari peers/subordinates
+   
+   Future Enhancement: Add manager review + peer feedback layer
+
+c) STATIC SCORING ALGORITHM
+   ❌ Algoritma ProDem & Zona fixed (hard-coded rules)
+   ❌ Tidak adaptive based on historical data
+   ❌ No machine learning untuk predictive analytics
+   
+   Future Enhancement: ML-based scoring & prediction
+
+d) LIMITED HISTORICAL COMPARISON
+   ❌ Sistem belum optimal untuk compare audit sebelumnya
+   ❌ No dashboard untuk visualize trend over time
+   ❌ No cohort analysis (compare dengan peers)
+   
+   Future Enhancement: Analytics dashboard dengan charts & graphs
+
+e) NO NOTIFICATION SYSTEM
+   ❌ Tidak ada email/SMS notification pas audit selesai
+   ❌ No reminder untuk re-audit quarterly
+   ❌ No alert untuk manager pas ada critical zone
+   
+   Future Enhancement: Email integration (Twilio SendGrid, dll)
+
+f) AI RESPONSE VARIABILITY
+   ❌ AI response bisa beda-beda untuk pertanyaan yang sama (temperature 0.7)
+   ❌ Tidak ada fact-checking untuk AI response
+   ❌ AI bisa "hallucinate" (ngomong data yang tidak ada di audit)
+   
+   Mitigasi: Lower temperature untuk more consistent, add disclaimer
+
+6.3 BIAYA & OPERASIONAL
+-----------------------
+
+a) OPENAI API COST
+   ❌ GPT-4o tidak gratis → $2.50 per 1M input tokens
+   ❌ Jika banyak karyawan chat intensif, cost bisa naik
+   ❌ Unpredictable monthly cost tergantung usage
+   
+   Estimate: 
+   - 100 chat per bulan × 500 tokens avg = 50K tokens
+   - Cost: ~$0.12/bulan (very cheap, but scales with usage)
+
+b) REPLIT HOSTING
+   ❌ Replit free tier ada limitation (sleep after inactivity)
+   ❌ Untuk production, perlu Replit paid plan ($7-20/month)
+   ❌ No SLA on free tier
+   
+   Solution: Upgrade ke Replit Core ($20/month) untuk always-on
+
+c) NEON DATABASE
+   ❌ Neon free tier: 3GB storage limit
+   ❌ Jika audit data > 3GB, perlu upgrade ($19/month)
+   ❌ Connection pooling limit di free tier
+   
+   Estimate: 1 audit ≈ 10KB → 3GB = ~300K audits (enough untuk years!)
+
+d) MAINTENANCE EFFORT
+   ❌ Butuh developer untuk fix bugs & add features
+   ❌ No dedicated support team
+   ❌ Update dependencies (npm packages) regularly
+   
+   Mitigasi: Schedule quarterly maintenance window
+
+TOTAL ESTIMATED COST (PER BULAN):
+- Replit Core: $20
+- OpenAI API: $1-5 (tergantung usage)
+- Neon DB: $0 (free tier cukup for now)
+- TOTAL: ~$25/bulan untuk production-ready system
+
+6.4 KEAMANAN & PRIVASI
+----------------------
+
+a) DATA PRIVACY
+   ❌ No encryption at rest untuk audit data
+   ❌ Chat messages tersimpan plaintext di database
+   ❌ No GDPR compliance features (right to be forgotten, dll)
+   
+   Future Enhancement: Add encryption, data retention policy
+
+b) AUTHENTICATION SECURITY
+   ❌ Belum ada proper authentication → anyone bisa akses
+   ❌ No password policy enforcement
+   ❌ No 2FA (two-factor authentication)
+   
+   Future Enhancement: Implement proper auth (Replit Auth, Auth0, dll)
+
+c) API SECURITY
+   ❌ API endpoints tidak ada rate limiting
+   ❌ No API key untuk external access
+   ❌ CORS policy belum strict
+   
+   Future Enhancement: Add rate limiting, API authentication
+
+================================================================================
+7. TEKNOLOGI YANG DIGUNAKAN
+================================================================================
+
+7.1 FRONTEND TECHNOLOGIES
+--------------------------
+
+React 18.3.1
+- Modern JavaScript library untuk UI
+- Component-based architecture
+- Virtual DOM untuk performance
+- Hooks untuk state management
+
+TypeScript 5.x
+- Type safety untuk reduce bugs
+- Better IDE support (autocomplete, intellisense)
+- Self-documenting code via types
+
+Vite 5.x
+- Next-generation build tool
+- Instant hot module replacement (HMR)
+- Lightning-fast cold start
+- Optimized production builds
+
+Wouter 3.x
+- Minimalist routing (1.3KB gzipped!)
+- Hook-based API (useLocation, useRoute)
+- No complex router config
+
+TanStack Query (React Query) v5
+- Server state management
+- Automatic caching & invalidation
+- Background refetching
+- Loading/error states built-in
+
+React Hook Form 7.x
+- Performant form handling (minimal re-renders)
+- Built-in validation
+- Easy integration dengan UI libraries
+
+Zod 3.x
+- TypeScript-first schema validation
+- Runtime type checking
+- Generate TypeScript types from schemas
+
+shadcn/ui
+- High-quality React components
+- Built on Radix UI (accessible primitives)
+- Customizable via Tailwind CSS
+- Copy-paste components (not npm package!)
+
+Tailwind CSS 3.x
+- Utility-first CSS framework
+- Responsive design out of the box
+- Dark mode support via class strategy
+- Custom color system
+
+Lucide React
+- Beautiful & consistent icons
+- Tree-shakeable (only import what you use)
+- 1000+ icons available
+
+7.2 BACKEND TECHNOLOGIES
+-------------------------
+
+Node.js 20.x
+- JavaScript runtime built on V8 engine
+- Event-driven, non-blocking I/O
+- Great for I/O-heavy operations
+
+Express.js 4.x
+- Minimalist web framework
+- Robust routing
+- Middleware ecosystem
+- De facto standard for Node.js APIs
+
+TypeScript 5.x
+- Same as frontend (shared types!)
+- End-to-end type safety
+
+tsx
+- TypeScript execution for Node.js
+- No build step needed for development
+- Fast iteration
+
+Zod 3.x
+- Shared validation schemas dengan frontend
+- Single source of truth
+
+7.3 DATABASE & ORM
+------------------
+
+PostgreSQL 16
+- Advanced open-source relational database
+- ACID compliant
+- JSONB support untuk flexible data
+- Full-text search capability
+
+Neon Serverless PostgreSQL
+- Cloud-native PostgreSQL
+- Auto-scaling
+- WebSocket support
+- Generous free tier (3GB)
+
+Drizzle ORM 0.33.x
+- Lightweight TypeScript ORM
+- Type-safe query building
+- Zero-cost abstractions
+- Schema migrations via Drizzle Kit
+
+@neondatabase/serverless
+- Official Neon client
+- Connection pooling
+- Optimized untuk serverless environments
+
+7.4 AI & EXTERNAL SERVICES
+---------------------------
+
+OpenAI API (GPT-4o)
+- Model: gpt-4o (GPT-4 Omni)
+- Multimodal capability (text focus for now)
+- 128K context window
+- Superior reasoning & instruction following
+
+openai npm package 4.x
+- Official OpenAI SDK
+- TypeScript support
+- Streaming support (future use)
+
+7.5 PDF GENERATION
+------------------
+
+PDFKit 0.15.x
+- Pure JavaScript PDF generation
+- No external dependencies
+- Support text, images, graphics
+- Streaming-capable
+
+7.6 UTILITY LIBRARIES
+---------------------
+
+date-fns 3.x
+- Modern date utility library
+- Tree-shakeable (lightweight)
+- Immutable & pure functions
+
+clsx + tailwind-merge
+- Conditional CSS class management
+- Merge Tailwind classes intelligently
+
+class-variance-authority
+- Type-safe component variants
+- Used by shadcn/ui components
+
+nanoid
+- Unique ID generation (for test data, etc)
+- Smaller & faster than UUID
+
+7.7 DEVELOPMENT TOOLS
+---------------------
+
+ESBuild
+- Extremely fast JavaScript bundler
+- Used by Vite under the hood
+
+PostCSS
+- CSS transformations
+- Autoprefixer untuk browser compatibility
+
+Drizzle Kit
+- Database migrations
+- Schema introspection
+- Push/pull schema changes
+
+7.8 HOSTING & DEPLOYMENT
+-------------------------
+
+Replit
+- Cloud development environment
+- Integrated hosting
+- Automatic HTTPS
+- Collaborative coding
+
+Neon
+- Serverless PostgreSQL hosting
+- Automatic backups
+- Branch database support
+
+7.9 VERSION CONTROL (ASSUMED)
+------------------------------
+
+Git
+- Version control system
+- Track changes over time
+- Collaboration via branches
+
+GitHub/GitLab (optional)
+- Remote repository
+- CI/CD integration
+- Issue tracking
+
+================================================================================
+8. TROUBLESHOOTING
+================================================================================
+
+8.1 MASALAH UMUM & SOLUSI
+-------------------------
+
+MASALAH 1: "Cannot submit audit form"
+PENYEBAB:
+- Form validation error (ada field yang missing)
+- Network error (internet connection issue)
+
+SOLUSI:
+1. Check semua field step 1-4 sudah diisi
+2. Buka browser console (F12) → lihat error message
+3. Refresh page dan coba lagi
+4. Jika masih error, clear browser cache
+
+---
+
+MASALAH 2: "AI Chat tidak respond / loading terus"
+PENYEBAB:
+- OpenAI API quota habis (most common!)
+- Network timeout
+- Server error
+
+SOLUSI:
+1. Tunggu 10-15 detik (OpenAI bisa slow)
+2. Check error toast message:
+   - "Layanan AI sedang mencapai batas penggunaan" → Quota habis
+   - "Terjadi kesalahan saat menghubungi AI" → Server error
+3. Jika quota habis:
+   - Login ke https://platform.openai.com
+   - Go to Billing → Add payment method → Top up $5-10
+4. User message tetap tersimpan, coba send lagi setelah top up
+
+---
+
+MASALAH 3: "PDF download tidak jalan"
+PENYEBAB:
+- Browser block popup/download
+- Server error saat generate PDF
+
+SOLUSI:
+1. Check browser popup blocker → allow popups dari site
+2. Check browser download settings → allow automatic downloads
+3. Try different browser (Chrome recommended)
+4. Check browser console untuk error message
+
+---
+
+MASALAH 4: "Input number jadi '010000' pas diisi"
+STATUS: FIXED ✅
+PENYEBAB: Bug di input value handling
+
+SOLUSI:
+- Sudah diperbaiki dengan conditional rendering:
+  value={field.value === 0 ? "" : field.value}
+- Update code ke versi terbaru
+
+---
+
+MASALAH 5: "Audit list tidak muncul / kosong"
+PENYEBAB:
+- Belum ada audit yang dibuat
+- Database connection error
+- Query error
+
+SOLUSI:
+1. Buat audit baru untuk populate data
+2. Check browser console → lihat API error
+3. Refresh page
+4. Check database connection (admin only)
+
+---
+
+MASALAH 6: "Delete audit tidak jalan"
+PENYEBAB:
+- Confirmation dialog tidak di-confirm
+- Database cascade delete error
+
+SOLUSI:
+1. Pastikan klik "Delete" di confirmation dialog (bukan Cancel)
+2. Wait for success toast message
+3. Refresh page jika audit masih muncul
+4. Check browser console untuk error
+
+---
+
+MASALAH 7: "Website slow / loading lama"
+PENYEBAB:
+- Replit free tier (sleep after inactivity)
+- Cold start delay (~5-10 detik)
+- Large database query
+
+SOLUSI:
+1. First load slow = normal (cold start)
+2. Subsequent loads harusnya fast
+3. Upgrade ke Replit paid plan untuk always-on
+4. Optimize database queries (add indexes)
+
+---
+
+MASALAH 8: "Dark mode tidak apply"
+PENYEBAB:
+- Browser cache issue
+- Theme setting tidak save
+
+SOLUSI:
+1. Hard refresh: Ctrl+Shift+R (Windows) atau Cmd+Shift+R (Mac)
+2. Clear browser cache
+3. Check localStorage untuk theme setting
+4. Toggle theme di theme switcher (jika ada)
+
+8.2 ERROR CODES & MEANINGS
+---------------------------
+
+HTTP 400 - Bad Request
+- Form validation error
+- Invalid input data
+- Fix: Check form fields, ensure correct data types
+
+HTTP 404 - Not Found
+- Audit ID tidak ditemukan
+- Route tidak exist
+- Fix: Check URL, ensure audit exists
+
+HTTP 429 - Rate Limit
+- OpenAI API quota exceeded
+- Too many requests
+- Fix: Top up API credit, wait dan retry
+
+HTTP 500 - Internal Server Error
+- Server crash
+- Database error
+- Uncaught exception
+- Fix: Check server logs, contact admin
+
+8.3 DEBUGGING TIPS
+------------------
+
+UNTUK USER:
+1. Browser Console (F12) adalah teman Anda!
+   - Tab Console: Lihat JavaScript errors
+   - Tab Network: Lihat API requests (status code, response)
+   - Tab Application: Check localStorage, cookies
+
+2. Screenshot Error Message
+   - Include full screen (URL visible)
+   - Include error toast/dialog
+   - Send ke admin untuk investigation
+
+3. Try Different Browser
+   - Chrome (recommended)
+   - Firefox
+   - Safari
+   - Edge
+   - Avoid IE (not supported!)
+
+4. Incognito Mode
+   - Test di incognito untuk rule out cache/extension issues
+
+UNTUK DEVELOPER:
+1. Server Logs
+   - Check console output di Replit
+   - Look for "[CHAT]", "[ERROR]", "[DB]" prefixes
+   - Stack traces untuk debugging
+
+2. Database Inspection
+   - Use Replit DB viewer
+   - Run SQL queries untuk check data integrity
+   - Verify migrations applied correctly
+
+3. Network Tab
+   - Check API request payload & response
+   - Verify status codes
+   - Look for failed requests
+
+4. React Query Devtools (if installed)
+   - Inspect cache state
+   - See query loading/error states
+   - Debug refetch behavior
+
+================================================================================
+9. BIAYA OPERASIONAL
+================================================================================
+
+9.1 BREAKDOWN BIAYA BULANAN
+----------------------------
+
+HOSTING (REPLIT):
+- Free Tier: $0/bulan
+  * Auto-sleep after inactivity
+  * No custom domain
+  * Limited resources
+  * OK untuk development/testing
+
+- Replit Core: $20/bulan
+  * Always-on (no sleep)
+  * 4GB RAM, 8 vCPUs
+  * Custom domain support
+  * 99.9% uptime SLA
+  * RECOMMENDED untuk production
+
+AI SERVICE (OPENAI):
+- GPT-4o Pricing:
+  * Input: $2.50 per 1M tokens
+  * Output: $10.00 per 1M tokens
+
+- Estimated Usage:
+  * 100 chats/bulan × 1000 tokens avg = 100K tokens
+  * Input cost: 100K / 1M × $2.50 = $0.25
+  * Output cost: 50K / 1M × $10 = $0.50
+  * TOTAL: ~$0.75/bulan (very minimal!)
+
+- Heavy Usage (1000 chats/bulan):
+  * Input: 1M tokens × $2.50 = $2.50
+  * Output: 500K tokens × $10 = $5.00
+  * TOTAL: ~$7.50/bulan
+
+DATABASE (NEON):
+- Free Tier: $0/bulan
+  * 3GB storage
+  * 5 compute hours/day (enough!)
+  * SUFFICIENT untuk most cases
+
+- Pro Plan: $19/bulan
+  * 10GB storage
+  * Unlimited compute hours
+  * Auto-scaling
+  * Only needed if > 300K audits
+
+ADDITIONAL COSTS:
+- Domain Name (optional): $10-15/tahun
+- SSL Certificate: $0 (included di Replit)
+- Backup Service (optional): $5/bulan
+
+TOTAL MONTHLY COST:
+- Minimal Setup (FREE TIER): $0.75/bulan (OpenAI only)
+- Recommended Production: $20.75/bulan (Replit Core + OpenAI)
+- Heavy Usage: $28/bulan (All paid tiers)
+
+9.2 COST OPTIMIZATION TIPS
+---------------------------
+
+1. REDUCE OPENAI COSTS:
+   - Set max_tokens limit (currently 500 → bisa turunkan ke 300)
+   - Increase temperature untuk shorter responses
+   - Cache common questions & answers
+   - Implement rate limiting per user
+
+2. ALTERNATIVE: GOOGLE GEMINI
+   - Free tier: 1500 requests/day (very generous!)
+   - Gemini 2.5 Flash: Free untuk most use cases
+   - Gemini 2.5 Pro: $1.25 per 1M input tokens (cheaper!)
+   - MIGRATION EFFORT: ~2 hours development
+
+3. DATABASE OPTIMIZATION:
+   - Regular cleanup old chat messages (> 6 months)
+   - Archive old audits (> 1 year) ke separate table
+   - Use database compression
+
+4. REPLIT OPTIMIZATION:
+   - Use Replit free tier untuk development/staging
+   - Only production di Replit Core
+   - Monitor resource usage via Replit dashboard
+
+================================================================================
+10. ROADMAP PENGEMBANGAN
+================================================================================
+
+10.1 SHORT-TERM (1-3 BULAN)
+---------------------------
+
+PRIORITY 1: AUTHENTICATION & AUTHORIZATION ⭐⭐⭐
+- Implement Replit Auth atau session-based login
+- Role-based access control (Employee, Auditor, Manager, Admin)
+- Audit ownership (karyawan only see their own audits)
+- Manager can see team's audits
+
+PRIORITY 2: MOBILE OPTIMIZATION ⭐⭐⭐
+- Responsive layout improvements
+- Touch-friendly UI elements
+- Mobile-first chat panel
+- Progressive Web App (PWA) support
+
+PRIORITY 3: NOTIFICATION SYSTEM ⭐⭐
+- Email notification pas audit submitted
+- Reminder untuk quarterly re-audit
+- Alert ke manager pas critical zone detected
+- Integration: Twilio SendGrid (email) atau Resend
+
+PRIORITY 4: EXCEL IMPORT/EXPORT ⭐⭐
+- Import quarterly data dari Excel template
+- Export audit results ke Excel
+- Bulk audit creation untuk multiple employees
+
+PRIORITY 5: AUDIT HISTORY & COMPARISON ⭐
+- "Previous Audits" section di detail page
+- Side-by-side comparison (current vs previous quarter)
+- Trend visualization (line charts)
+
+10.2 MEDIUM-TERM (3-6 BULAN)
+----------------------------
+
+PRIORITY 1: ANALYTICS DASHBOARD ⭐⭐⭐
+- Aggregate statistics (team performance overview)
+- Distribution charts (zona distribution, profil distribution)
+- Quarterly trend analysis
+- Cohort comparison (compare dengan peers)
+
+PRIORITY 2: MANAGER REVIEW LAYER ⭐⭐
+- Manager can add review/comments ke audit
+- Approve/reject audit results
+- Request re-assessment
+- Audit workflow: Draft → Review → Approved
+
+PRIORITY 3: 360-DEGREE FEEDBACK ⭐⭐
+- Peer feedback form (simplified 18 Pilar)
+- Subordinate feedback (untuk managers)
+- Aggregate scores (self + manager + peers)
+- More holistic assessment
+
+PRIORITY 4: AI IMPROVEMENTS ⭐⭐
+- Streaming responses (real-time typing effect)
+- Voice input/output (speech-to-text, text-to-speech)
+- Multilingual support (English, Mandarin, dll)
+- AI-generated Action Plan (more personalized)
+
+PRIORITY 5: INTEGRATION DENGAN HRIS ⭐
+- API integration dengan existing HRIS system
+- Auto-sync employee data (nama, jabatan, struktur tim)
+- Single Sign-On (SSO)
+- Centralized employee database
+
+10.3 LONG-TERM (6-12 BULAN)
+---------------------------
+
+PRIORITY 1: MACHINE LEARNING ENHANCEMENT ⭐⭐⭐
+- Predictive analytics (predict performance next quarter)
+- Anomaly detection (unusual performance patterns)
+- Recommendation engine (personalized improvement tips)
+- ML-based ProDem scoring (adaptive algorithm)
+
+PRIORITY 2: GAMIFICATION & ENGAGEMENT ⭐⭐
+- Leaderboard (top performers)
+- Badges & achievements (milestones)
+- Points system (earning points untuk training, coaching)
+- Team challenges
+
+PRIORITY 3: LEARNING MANAGEMENT SYSTEM (LMS) ⭐⭐
+- Training courses based on weakness areas
+- Video tutorials untuk skill development
+- Quiz & certification
+- Track learning progress
+
+PRIORITY 4: MOBILE NATIVE APP ⭐
+- iOS app (Swift/React Native)
+- Android app (Kotlin/React Native)
+- Push notifications
+- Offline mode dengan sync
+
+PRIORITY 5: ADVANCED REPORTING ⭐
+- Custom report builder (drag-and-drop)
+- Scheduled reports (email weekly digest)
+- Export formats: PDF, Excel, PowerPoint
+- White-label branding
+
+10.4 FUTURE IDEAS (BACKLOG)
+----------------------------
+
+- Video self-assessment (record video jawab pertanyaan)
+- AI video analysis (body language, confidence level)
+- Blockchain-based audit trail (immutable records)
+- Multi-language support (i18n)
+- Accessibility improvements (WCAG compliance)
+- API marketplace (third-party integrations)
+- Chatbot WhatsApp integration
+- Voice assistant (Alexa/Google Home skill)
+
+================================================================================
+                            PENUTUP
+================================================================================
+
+AISG (Audit Intelligence SG) adalah solusi modern untuk performance audit
+yang menggabungkan:
+
+✅ STANDARDIZATION (18 Pilar framework yang konsisten)
+✅ AUTOMATION (perhitungan kompleks dalam seconds)
+✅ AI INTELLIGENCE (GPT-4o powered coaching)
+✅ USER-FRIENDLY INTERFACE (intuitive multi-step form)
+✅ ACTIONABLE INSIGHTS (30-60-90 action plan)
+✅ DATA-DRIVEN DECISIONS (ProDem recommendations)
+
+Sistem ini designed untuk:
+- KARYAWAN: Self-awareness & continuous improvement
+- AUDITOR: Efficient & objective evaluation
+- MANAJEMEN: Strategic people decisions
+
+Dengan total biaya operasional ~$21-28/bulan, AISG memberikan ROI yang tinggi
+dalam bentuk:
+- Time saving (dari days → minutes per audit)
+- Better employee development (clear action plan)
+- Reduced turnover (early warning system)
+- Fairer promotion/demotion process
+
+NEXT STEPS:
+1. Deploy ke production (Replit Core)
+2. Top up OpenAI API credit
+3. Train karyawan & manager cara pakai sistem
+4. Lakukan pilot dengan 10-20 karyawan
+5. Gather feedback & iterate
+6. Scale ke seluruh organisasi
+
+================================================================================
+                        KONTAK & SUPPORT
+================================================================================
+
+Untuk pertanyaan, bug reports, atau feature requests, silakan hubungi:
+
+Email: [your-email]@company.com
+Replit: https://[your-replit-url].replit.app
+Documentation: Lihat file ini (AISG_Manual_Book.txt)
+
+Terima kasih sudah menggunakan AISG!
+
+"Empowering People through Data-Driven Performance Insights"
+
+================================================================================
+                        END OF MANUAL BOOK
+================================================================================

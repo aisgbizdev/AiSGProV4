@@ -1,0 +1,264 @@
+{
+  "pts": [
+    "SGB",
+    "RFB",
+    "KPF",
+    "EWF",
+    "BPF"
+  ],
+  "branches": {
+    "AB": {
+      "code": "AB",
+      "name": "TCC",
+      "fullName": "TCC ( SGB )",
+      "pt": "SGB"
+    },
+    "AC": {
+      "code": "AC",
+      "name": "MKSR",
+      "fullName": "MKSR ( SGB )",
+      "pt": "SGB"
+    },
+    "AE": {
+      "code": "AE",
+      "name": "SMG 1",
+      "fullName": "SMG 1 ( SGB )",
+      "pt": "SGB"
+    },
+    "BA": {
+      "code": "BA",
+      "name": "DBS",
+      "fullName": "DBS ( RFB )",
+      "pt": "RFB"
+    },
+    "BB": {
+      "code": "BB",
+      "name": "BDG 1",
+      "fullName": "BDG 1 ( RFB )",
+      "pt": "RFB"
+    },
+    "BC": {
+      "code": "BC",
+      "name": "MDN 1",
+      "fullName": "MDN 1 ( RFB )",
+      "pt": "RFB"
+    },
+    "BE": {
+      "code": "BE",
+      "name": "PLBG",
+      "fullName": "PLBG ( RFB )",
+      "pt": "RFB"
+    },
+    "BF": {
+      "code": "BF",
+      "name": "SOLO",
+      "fullName": "SOLO ( RFB )",
+      "pt": "RFB"
+    },
+    "BG": {
+      "code": "BG",
+      "name": "SMG 2",
+      "fullName": "SMG 2 ( RFB )",
+      "pt": "RFB"
+    },
+    "BH": {
+      "code": "BH",
+      "name": "AXA TOWER",
+      "fullName": "AXA TOWER ( RFB )",
+      "pt": "RFB"
+    },
+    "BI": {
+      "code": "BI",
+      "name": "SBY 5",
+      "fullName": "SBY 5 ( RFB )",
+      "pt": "RFB"
+    },
+    "BJ": {
+      "code": "BJ",
+      "name": "PKB 2",
+      "fullName": "PKB 2 (RFB)",
+      "pt": "RFB"
+    },
+    "BK": {
+      "code": "BK",
+      "name": "JGJ 2",
+      "fullName": "JGJ 2 ( RFB )",
+      "pt": "RFB"
+    },
+    "BL": {
+      "code": "BL",
+      "name": "BLP",
+      "fullName": "BLP (RFB)",
+      "pt": "RFB"
+    },
+    "BM": {
+      "code": "BM",
+      "name": "AXA TOWER 2",
+      "fullName": "AXA TOWER 2 ( RFB )",
+      "pt": "RFB"
+    },
+    "BN": {
+      "code": "BN",
+      "name": "AXA TOWER 3",
+      "fullName": "AXA TOWER 3 ( RFB )",
+      "pt": "RFB"
+    },
+    "BO": {
+      "code": "BO",
+      "name": "SBY 7",
+      "fullName": "SBY 7 (RFB)",
+      "pt": "RFB"
+    },
+    "CA": {
+      "code": "CA",
+      "name": "BALI",
+      "fullName": "BALI ( KPF )",
+      "pt": "KPF"
+    },
+    "CE": {
+      "code": "CE",
+      "name": "MRN",
+      "fullName": "MRN ( KPF )",
+      "pt": "KPF"
+    },
+    "CF": {
+      "code": "CF",
+      "name": "JGJ",
+      "fullName": "JGJ ( KPF )",
+      "pt": "KPF"
+    },
+    "CG": {
+      "code": "CG",
+      "name": "MKSR 2",
+      "fullName": "MKSR 2 ( KPF )",
+      "pt": "KPF"
+    },
+    "CI": {
+      "code": "CI",
+      "name": "BDG 2",
+      "fullName": "BDG 2 ( KPF )",
+      "pt": "KPF"
+    },
+    "CJ": {
+      "code": "CJ",
+      "name": "SMG 4",
+      "fullName": "SMG 4 ( KPF )",
+      "pt": "KPF"
+    },
+    "DA": {
+      "code": "DA",
+      "name": "CBR 2",
+      "fullName": "CBR 2 ( EWF )",
+      "pt": "EWF"
+    },
+    "DB": {
+      "code": "DB",
+      "name": "SBY 2",
+      "fullName": "SBY 2 ( EWF )",
+      "pt": "EWF"
+    },
+    "DD": {
+      "code": "DD",
+      "name": "MDO",
+      "fullName": "MDO ( EWF )",
+      "pt": "EWF"
+    },
+    "DE": {
+      "code": "DE",
+      "name": "SSC",
+      "fullName": "SSC ( EWF )",
+      "pt": "EWF"
+    },
+    "DF": {
+      "code": "DF",
+      "name": "SMG 3",
+      "fullName": "SMG 3 ( EWF )",
+      "pt": "EWF"
+    },
+    "DI": {
+      "code": "DI",
+      "name": "CRBN",
+      "fullName": "CRBN ( EWF )",
+      "pt": "EWF"
+    },
+    "DJ": {
+      "code": "DJ",
+      "name": "SBY PRAXIS 2",
+      "fullName": "SBY PRAXIS 2 (EWF)",
+      "pt": "EWF"
+    },
+    "EA": {
+      "code": "EA",
+      "name": "ONE PP",
+      "fullName": "ONE PP ( BPF )",
+      "pt": "BPF"
+    },
+    "EB": {
+      "code": "EB",
+      "name": "JMB",
+      "fullName": "JMB ( BPF )",
+      "pt": "BPF"
+    },
+    "EC": {
+      "code": "EC",
+      "name": "MLNG",
+      "fullName": "MLNG ( BPF )",
+      "pt": "BPF"
+    },
+    "ED": {
+      "code": "ED",
+      "name": "PTK",
+      "fullName": "PTK ( BPF )",
+      "pt": "BPF"
+    },
+    "EF": {
+      "code": "EF",
+      "name": "SBY 4",
+      "fullName": "SBY 4 ( BPF )",
+      "pt": "BPF"
+    },
+    "EG": {
+      "code": "EG",
+      "name": "BDG 3",
+      "fullName": "BDG 3 ( BPF )",
+      "pt": "BPF"
+    },
+    "EH": {
+      "code": "EH",
+      "name": "MDN 2",
+      "fullName": "MDN 2 ( BPF )",
+      "pt": "BPF"
+    },
+    "EI": {
+      "code": "EI",
+      "name": "ET",
+      "fullName": "ET ( BPF )",
+      "pt": "BPF"
+    },
+    "EJ": {
+      "code": "EJ",
+      "name": "BJM",
+      "fullName": "BJM ( BPF )",
+      "pt": "BPF"
+    },
+    "EK": {
+      "code": "EK",
+      "name": "PKB",
+      "fullName": "PKB ( BPF )",
+      "pt": "BPF"
+    },
+    "EL": {
+      "code": "EL",
+      "name": "LMP",
+      "fullName": "LMP (2)",
+      "pt": "BPF"
+    },
+    "EM": {
+      "code": "EM",
+      "name": "SMG 5",
+      "fullName": "SMG 5 (BPF)",
+      "pt": "BPF"
+    }
+  },
+  "totalBranches": 42
+}

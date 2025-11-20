@@ -1,0 +1,121 @@
+2025-11-14 17:07:50.67
+455286ac
+User
+10:07:50 AM [express] GET /api/enterprise/employees 200 in 146ms :: []
+2025-11-14 17:07:58.99
+455286ac
+User
+dataType: undefined,
+2025-11-14 17:07:58.99
+455286ac
+User
+at async NeonPreparedQuery.execute (file:///home/runner/workspace/node_modules/drizzle-orm/neon-serverless/session.js:76:20)
+2025-11-14 17:07:58.99
+455286ac
+User
+constraint: undefined,
+2025-11-14 17:07:58.99
+455286ac
+User
+detail: undefined,
+2025-11-14 17:07:58.99
+455286ac
+User
+at file:///home/runner/workspace/node_modules/@neondatabase/serverless/index.mjs:1345:74
+2025-11-14 17:07:58.99
+455286ac
+User
+severity: 'ERROR',
+2025-11-14 17:07:58.99
+455286ac
+User
+position: undefined,
+2025-11-14 17:07:58.99
+455286ac
+User
+column: undefined,
+2025-11-14 17:07:58.99
+455286ac
+User
+internalQuery: undefined,
+2025-11-14 17:07:58.99
+455286ac
+User
+internalPosition: undefined,
+2025-11-14 17:07:58.99
+455286ac
+User
+code: '22P02',
+2025-11-14 17:07:58.99
+455286ac
+User
+at async file:///home/runner/workspace/dist/index.js:4482:21 {
+2025-11-14 17:07:58.99
+455286ac
+User
+where: "unnamed portal parameter $1 = '...'",
+2025-11-14 17:07:58.99
+455286ac
+User
+Error fetching personal audit: error: invalid input syntax for type uuid: "check-expiry"
+2025-11-14 17:07:58.99
+455286ac
+User
+schema: undefined,
+2025-11-14 17:07:58.99
+455286ac
+User
+length: 144,
+2025-11-14 17:07:58.99
+455286ac
+User
+file: 'uuid.c',
+2025-11-14 17:07:58.99
+455286ac
+User
+}
+2025-11-14 17:07:58.99
+455286ac
+User
+line: '133',
+2025-11-14 17:07:58.99
+455286ac
+User
+table: undefined,
+
+2025-11-14 17:07:58.99
+455286ac
+User
+routine: 'string_to_uuid'
+2025-11-14 17:07:58.99
+455286ac
+User
+hint: undefined,
+2025-11-14 17:07:58.99
+455286ac
+User
+at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2025-11-14 17:07:58.99
+455286ac
+User
+10:07:58 AM [express] GET /api/personal-audits/check-expiry 500 in 132ms :: {"error":"invalid input s…
+2025-11-14 17:09:19.20
+455286ac
+User
+}
+2025-11-14 17:09:19.20
+455286ac
+User
+username: 'superadmin'
+2025-11-14 17:09:19.20
+455286ac
+User
+userId: '3debf2d2-d1b1-4707-bf49-48b6e3f44e95',
+2025-11-14 17:09:19.20
+455286ac
+User
+sessionId: '3LIzyXf9vjM0Eq3PX6k00zUmzuJbimVJ',
+2025-11-14 17:09:19.20
+455286ac
+User
+Login successful: {

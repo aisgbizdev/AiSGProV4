@@ -1,0 +1,99 @@
+# =====================================
+# MASTER_AUDIT_AISG.txt
+# Instruksi & Format Audit – AiSG (multi-cabang, format assessment SSC style)
+# Versi: 2025-10-01
+# =====================================
+
+# ---- VARIABEL GLOBAL ----
+[nama_cabang] = [nama_cabang]  # Tarik dari PROFILE_INSTRUKSI_AISG.txt saat runtime
+
+# ---- PATH FILE ----
+PATH_HIRARKI      = STRUKTUR_HIRARKI_[nama_cabang].txt
+FILE_ASSESS_BC    = ASSESSMENT_BC_[nama_cabang].txt
+FILE_ASSESS_SBC   = ASSESSMENT_SBC_[nama_cabang].txt
+FILE_ASSESS_BsM   = ASSESSMENT_BsM_[nama_cabang].txt
+FILE_ASSESS_SBM   = ASSESSMENT_SBM_[nama_cabang].txt
+FILE_ASSESS_EM    = ASSESSMENT_EM_[nama_cabang].txt
+FILE_ASSESS_SEM   = ASSESSMENT_SEM_[nama_cabang].txt
+FILE_ASSESS_VBM   = ASSESSMENT_VBM_[nama_cabang].txt
+FILE_ASSESS_BrM   = ASSESSMENT_BrM_[nama_cabang].txt
+
+FILE_18PILAR      = 18_PILAR.txt
+FILE_PRODEM       = SCHEME_PRODEM.txt
+FILE_QUOTES       = QUOTES.txt
+FILE_DATA_PROFILE = DATA_[nama_cabang].txt
+
+# ---- RULES SKOR & ZONA ----
+# 18 Pilar → skor 1–5 → total maksimal 90
+# Zona warna:
+#   🟥 0–50  = Merah (Bahaya)
+#   🟨 51–74 = Kuning (Waspada)
+#   🟩 75–90 = Hijau (Aman)
+# Pilar kritis (auto EWS jika ≤2): P4 Kaderisasi, P9 Produktivitas Pimpinan, P13 Disiplin & Konsistensi
+# Jika data pilar parsial: rata-rata pilar terisi, lalu diskalakan ke 0–90
+
+# ---- ALUR DATA ----
+[ALUR_DATA]
+1. Identifikasi individu & level dari PATH_HIRARKI
+2. Baca file assessment TXT sesuai level (delimiter='\t')
+3. Ambil: identitas, tanggal lahir, atasan, skor 18 Pilar, narasi, Q&A coaching
+4. Baca file DATA untuk margin & NA bulanan (margin_01–12, na_01–12)
+5. Hitung skor total (0–90) → tentukan ZONA & EWS
+6. Ambil aturan ProDem dari SCHEME_PRODEM.txt sesuai level
+7. Render AUDIT INDIVIDU pakai FORMAT_AUDIT (penuh, 12 bagian)
+
+# ---- FORMAT AUDIT (FULL, WAJIB) ----
+[FORMAT_AUDIT]
+1. 🔍 INSIGHT LENGKAP  
+   - Nama, jabatan/level, masa aktif, posisi di struktur (atasan → individu → bawahan)  
+   - Jumlah & kualitas tim langsung, jalur aktif  
+   - Rekap NA & margin (12 bulan, dari DATA)  
+   - Karakter kerja (narasi singkat dari assessment)  
+   - Kesimpulan fungsi: membina / administratif  
+
+2. 📊 SKORING 18 PILAR + ZONA  
+   - Tabel: Pilar, Skor, Insight (1–2 kalimat interpretasi)  
+   - Total skala 0–90 & badge ZONA  
+   - Tandai pilar kritis (EWS)  
+
+3. 🧠 SWOT AUDIT  
+   - Strength, Weakness, Opportunity, Threat (berbasis data assessment & kinerja)  
+
+4. ✅ REKOMENDASI FINAL AiSG (sinkron ProDem)  
+   - PROMOSI / DIPERTAHANKAN / PEMBINAAN / DEMOSI  
+   - Alasan singkat + syarat level  
+
+5. 🎯 PERTANYAAN COACHING UNTUK ATASAN LANGSUNG  
+   - 3 pertanyaan spesifik berdasarkan hasil audit (zona merah/kuning, pilar kritis, hambatan personal)  
+   - Jawaban atasan disimpan → akan ditarik ke MAGIC SECTION  
+
+6. 🗓️ ACTION PLAN 30–60–90 HARI  
+   - Tabel: Periode | Target | Aktivitas Kunci | PIC | Output Terukur  
+
+7. 📈 TABEL SUMMARY PROGRESS BULANAN (3 bulan terakhir)  
+   - Tabel: Bulan | Target | Realisasi | % | Catatan  
+
+8. 🗒️ REKAP AKTIVITAS COACHING & FOLLOW-UP  
+   - Tabel: Tanggal | Jenis Coaching | Materi | Hasil/Effect  
+
+9. 🚨 EARLY WARNING SYSTEM (EWS)  
+   - Tabel: Faktor | Indikator | Risiko | Saran Tindakan Cepat  
+
+10. 🧭 KESESUAIAN DENGAN VISI  
+    - ✅ Align / ⚠️ Perlu Penyesuaian / ❌ Belum Sesuai  
+
+11. 🟢/🟡/🟥 ZONA WARNA (ringkas)  
+    - Ulangi skor total & badge ZONA  
+
+12. 🌟 MAGIC SECTION (narasi motivasi penuh jiwa)  
+    - Julukan dramatis  
+    - Narasi motivasi personal (lebay tapi membangun)  
+    - Insight atasan (dari jawaban coaching)  
+    - Zodiak Booster (paragraf penuh, gaya Gen Z / Milenial)  
+    - CTA spesifik 1–2 kalimat  
+    - Penutup: kutipan random dari QUOTES.txt (**bold + underline**)  
+
+# ---- CATATAN KONSISTENSI ----
+- Format TIDAK BOLEH dipangkas
+- Jika assessment gagal terbaca → tampilkan ALERT
+- Engine portable lintas cabang: cukup ganti [nama_cabang] di profile

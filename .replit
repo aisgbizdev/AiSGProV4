@@ -1,0 +1,59 @@
+modules = ["python-3.11", "nodejs-20", "postgresql-16"]
+[agent]
+expertMode = true
+
+[nix]
+channel = "stable-25_05"
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "AISG App"
+
+[[workflows.workflow]]
+name = "AISG App"
+author = "agent"
+
+[workflows.workflow.metadata]
+outputType = "webview"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run dev"
+waitForPort = 5000
+
+[[ports]]
+localPort = 5000
+externalPort = 80
+
+[[ports]]
+localPort = 38651
+externalPort = 3001
+
+[[ports]]
+localPort = 41337
+externalPort = 3002
+
+[[ports]]
+localPort = 42607
+externalPort = 3000
+
+[[ports]]
+localPort = 45579
+externalPort = 3003
+
+[[ports]]
+localPort = 45775
+externalPort = 4200
+
+[deployment]
+deploymentTarget = "autoscale"
+build = ["npm", "run", "build"]
+run = ["npm", "run", "start"]

@@ -1,0 +1,138 @@
+e26-b19c-30cc51f…
+2025-11-14 17:19:43.55
+455286ac
+User
+10:19:43 AM [express] GET /api/admin/users/inactive 304 in 7ms
+2025-11-14 17:19:43.55
+455286ac
+User
+10:19:43 AM [express] GET /api/admin/users 304 in 1ms
+2025-11-14 17:19:47.16
+455286ac
+User
+10:19:47 AM [express] GET /api/enterprise/employees 304 in 869ms :: []
+
+2025-11-14 17:20:36.22
+455286ac
+User
+table: undefined,
+2025-11-14 17:20:36.22
+455286ac
+User
+detail: undefined,
+2025-11-14 17:20:36.22
+455286ac
+User
+code: '22P02',
+2025-11-14 17:20:36.22
+455286ac
+User
+column: undefined,
+2025-11-14 17:20:36.22
+455286ac
+User
+10:20:36 AM [express] GET /api/personal-audits/check-expiry 500 in 483ms :: {"error":"invalid input s…
+2025-11-14 17:20:37.48
+455286ac
+User
+10:20:37 AM [express] GET /api/admin/personal-audits 304 in 391ms :: []
+2025-11-14 17:21:04.34
+455286ac
+User
+}
+2025-11-14 17:21:04.34
+455286ac
+User
+at async NeonPreparedQuery.execute (file:///home/runner/workspace/node_modules/drizzle-orm/neon-serverless/session.js:76:20)
+2025-11-14 17:21:04.34
+455286ac
+User
+at file:///home/runner/workspace/node_modules/@neondatabase/serverless/index.mjs:1345:74
+2025-11-14 17:21:04.34
+455286ac
+User
+severity: 'ERROR',
+2025-11-14 17:21:04.34
+455286ac
+User
+routine: 'ExecConstraints'
+2025-11-14 17:21:04.34
+455286ac
+User
+at async file:///home/runner/workspace/dist/index.js:3245:22 {
+2025-11-14 17:21:04.34
+455286ac
+User
+code: '23502',
+2025-11-14 17:21:04.34
+455286ac
+User
+hint: undefined,
+2025-11-14 17:21:04.34
+455286ac
+User
+schema: 'public',
+2025-11-14 17:21:04.34
+455286ac
+User
+internalPosition: undefined,
+2025-11-14 17:21:04.34
+455286ac
+User
+Error creating branch: error: null value in column "ceo_unit_id" of relation "branches" violates not-null constraint
+2025-11-14 17:21:04.34
+455286ac
+User
+detail: 'Failing row contains (f64a8822-f7d3-4606-880e-c5bf1be03dc5, null, EWF SSC, DE, null, 2025-11-14 10:21:04.313222, 4bf38cdf-e529-4e26-b19c-30cc51f19466, active, Jakarta, 2025-11-14 10:21:04.313222).',
+2025-11-14 17:21:04.34
+455286ac
+User
+constraint: undefined,
+2025-11-14 17:21:04.34
+455286ac
+User
+table: 'branches',
+2025-11-14 17:21:04.34
+455286ac
+User
+file: 'execMain.c',
+2025-11-14 17:21:04.34
+455286ac
+User
+at async DbStorage.createBranch (file:///home/runner/workspace/dist/index.js:650:24)
+2025-11-14 17:21:04.34
+455286ac
+User
+column: 'ceo_unit_id',
+2025-11-14 17:21:04.34
+455286ac
+User
+internalQuery: undefined,
+2025-11-14 17:21:04.34
+455286ac
+User
+where: undefined,
+2025-11-14 17:21:04.34
+455286ac
+User
+at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2025-11-14 17:21:04.34
+455286ac
+User
+line: '2021',
+2025-11-14 17:21:04.34
+455286ac
+User
+length: 378,
+2025-11-14 17:21:04.34
+455286ac
+User
+position: undefined,
+2025-11-14 17:21:04.34
+455286ac
+User
+dataType: undefined,
+2025-11-14 17:21:04.34
+455286ac
+User
+10:21:04 AM [express] POST /api/enterprise/branches 500 in 332ms :: {"error":"null value in column \"…

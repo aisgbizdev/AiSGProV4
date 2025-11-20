@@ -1,0 +1,36 @@
+# =====================================
+# PROFILE_INSTRUKSI_AISG.txt
+# Profil Instruksi Audit – AiSG (multi-cabang, format assessment SSC style)
+# Versi: 2025-10-01
+# =====================================
+
+# ---- VARIABEL GLOBAL (EDIT DI SINI SAJA) ----
+[nama_cabang] = EWF_SSC
+# Ganti sesuai nama cabang: SGBTCC_JAKARTA, EWF_CIREBON, RFB_DBS, dll.
+
+# ---- PATH FILE (pakai variabel [nama_cabang]) ----
+PATH_HIRARKI      = STRUKTUR_HIRARKI_[nama_cabang].txt
+
+FILE_ASSESS_BC    = ASSESSMENT_BC_[nama_cabang].txt
+FILE_ASSESS_SBC   = ASSESSMENT_SBC_[nama_cabang].txt
+FILE_ASSESS_BsM   = ASSESSMENT_BsM_[nama_cabang].txt
+FILE_ASSESS_SBM   = ASSESSMENT_SBM_[nama_cabang].txt
+FILE_ASSESS_EM    = ASSESSMENT_EM_[nama_cabang].txt
+FILE_ASSESS_SEM   = ASSESSMENT_SEM_[nama_cabang].txt
+FILE_ASSESS_VBM   = ASSESSMENT_VBM_[nama_cabang].txt
+FILE_ASSESS_BrM   = ASSESSMENT_BrM_[nama_cabang].txt
+
+FILE_18PILAR      = 18_PILAR.txt
+FILE_PRODEM       = SCHEME_PRODEM.txt
+FILE_QUOTES       = QUOTES.txt
+FILE_DATA_PROFILE = DATA_[nama_cabang].txt
+
+# ---- KONST (boleh dibiarkan default) ----
+CSV_DELIMITER       = \t
+CSV_QUOTECHAR       = "
+MAX_RETRY_READ_CSV  = 3
+
+# Catatan:
+# 1) Engine audit AiSG membaca assessment format SSC-style (identitas, skor 18 Pilar, Q&A).
+# 2) Semua file lintas cabang portable → cukup ganti [nama_cabang].
+# =====================================

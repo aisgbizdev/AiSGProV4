@@ -1,0 +1,115 @@
+# HIRARKI AUDIT FIELD – AiSG Hybrid v3
+# Struktur Fungsional Lapangan (ProDem-Based System)
+# Versi 25 Oktober 2025 | NM23 Ai × ChatGPT-OpenAI
+
+==================================================
+📍 STRUKTUR UMUM (JABATAN FORMAL)
+==================================================
+1. BC   – Business Consultant
+2. SBC  – Senior Business Consultant
+3. BSM  – Business Manager
+4. SBM  – Senior Business Manager
+5. EM   – Executive Manager
+6. SEM  – Senior Executive Manager
+7. VBM  – Vice Branch Manager
+8. BM   – Branch Manager
+9. CBO  – Chief Branch Officer
+
+# Catatan:
+# - Semua jabatan di atas bersifat “formal ladder”.
+# - Namun dalam sistem ProDem SG, hubungan fungsional bisa lintas level.
+
+==================================================
+⚙️ STRUKTUR FUNGSIONAL (PRODEM CHAIN)
+==================================================
+CBO ──> BM ──> VBM ──> SEM ──> EM ──> SBM ──> BSM ──> SBC ──> BC
+
+# Sistem membaca dari kanan ke kiri (bottom-up) untuk audit individu,
+# dan kiri ke kanan (top-down) untuk audit tim.
+
+==================================================
+🧩 LOGIKA FUNGSIONAL
+==================================================
+1️⃣ Hubungan fungsional tidak selalu hierarki murni.
+   Seorang BSM dapat membina BSM lain, atau SBM membina SBM lain,
+   tergantung hasil promosi/demosi ProDem kuartal berjalan.
+
+2️⃣ Dalam kasus tersebut, sistem tetap menganggap level di bawahnya
+   sebagai “bawahan fungsional” dan akan menghitung seluruh margin
+   serta tim aktif di bawah pembina tersebut.
+
+3️⃣ Rumus:
+   Total_Tim_Aktif(level X) = Σ (semua individu di bawah struktur fungsional X)
+   termasuk mereka dengan jabatan sama jika X adalah pembina ProDem mereka.
+
+4️⃣ Output laporan akan menampilkan dua status:
+   - Jabatan Formal
+   - Jabatan Fungsional (misal: Mentor BSM atau Leader SEM)
+
+==================================================
+📊 AGREGASI MARGIN & TIM
+==================================================
+Jika LEVEL = BC:
+   Tidak memiliki bawahan. Margin = pribadi.
+
+Jika LEVEL = SBC:
+   Hitung BC di bawah tanggung jawab langsung.
+
+Jika LEVEL = BSM:
+   Hitung SBC + BC di bawah tim.
+
+Jika LEVEL = SBM:
+   Hitung BSM + SBC + BC di bawahnya.
+
+Jika LEVEL = EM:
+   Hitung SBM + BSM + SBC + BC di bawahnya.
+
+Jika LEVEL = SEM:
+   Hitung EM + SBM + BSM + SBC + BC di bawahnya.
+
+Jika LEVEL = VBM:
+   Hitung SEM + EM + SBM + BSM + SBC + BC di bawahnya.
+
+Jika LEVEL = BM:
+   Hitung semua di bawahnya (VBM hingga BC).
+
+Jika LEVEL = CBO:
+   Hitung seluruh struktur di bawah (BM hingga BC).
+
+# Semua margin dijumlahkan berdasarkan anggota aktif di bawah fungsi pembinaannya,
+# bukan hanya berdasarkan jabatan formal.
+
+==================================================
+🚀 PROMOSI & DEGRADASI (RINGKAS)
+==================================================
+BC  → SBC : PATD wajib, min 3 BC aktif, margin kuartal capai baseline.
+SBC → BSM : PATL wajib, cetak 2 SBC aktif, margin naik ≥10%.
+BSM → SBM : Bentuk 1 BSM baru, retensi stabil, 2 kuartal berturut target tercapai.
+SBM → EM  : Governance & kaderisasi kuat, ≥80% tim mencapai target.
+EM  → SEM : Coaching lintas tim berjalan aktif.
+SEM → VBM : Mampu pimpin ≥3 EM aktif, laporan ProDem konsisten.
+VBM → BM  : Siapkan ≥2 SEM mandiri, struktur stabil 2Q berturut.
+BM  → CBO : Bina ≥3 cabang aktif, audit struktur lancar & EWS hijau.
+
+DEGRADASI:
+Jika 2 kuartal berturut gagal mencapai baseline margin + target ProDem,
+level turun satu tingkat dan status "mentor fungsional" dinonaktifkan sementara.
+
+==================================================
+📘 CATATAN TAMBAHAN
+==================================================
+- AiSG membaca file ini untuk dua fungsi:
+  1. Menentukan hubungan pembina–bawahan di laporan audit.
+  2. Membantu modul ProDem & Action Plan menghitung ruang promosi realistis.
+- Jika ada jabatan sama di struktur bawah, sistem hanya menghitungnya sekali
+  dalam Total Tim Aktif (fungsi unique aggregation).
+- File ini boleh diperbarui setiap ada revisi sistem ProDem SG.
+
+==================================================
+🔖 PENANDA FILE
+==================================================
+[HIRARKI_FIELD_STRUCTURE] = v3.0
+[UPDATED] = 25/10/2025
+[AUTHOR] = AiSG Team – NM23 Ai × ChatGPT-OpenAI
+[MODE] = Functional Audit Hierarchy for ProDem System
+==================================================

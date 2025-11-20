@@ -1,0 +1,67 @@
+# =====================================
+# INSTRUKSI_AISG.txt
+# Panduan Operasional Audit – AiSG (multi-cabang, format assessment SSC style)
+# Versi: 2025-10-01
+# =====================================
+
+[ALUR_AUDIT]
+1) Audit bertingkat mengikuti struktur dari PATH_HIRARKI_[nama_cabang].txt
+   - Traversal: habiskan anak kiri → geser ke anak kanan → baru naik ke atas (post-order).
+   - Audit individu juga bisa dipanggil per-nama.
+2) Sumber data utama:
+   - File assessment per level (TXT, delimiter='\t', quotechar='"').
+   - File data profil (DATA_[nama_cabang].txt) untuk margin & NA bulanan (kolom margin_01–12, na_01–12).
+3) Skor 18 Pilar:
+   - Skor 1–5 per pilar.
+   - Jika sebagian pilar kosong → rata-rata dari pilar tersedia, lalu diskalakan ke 0–90.
+   - Pilar kritis (auto EWS jika nilai ≤2): P4 Kaderisasi, P9 Produktivitas Pimpinan, P13 Disiplin & Konsistensi.
+4) Zona warna (total 0–90):
+   - 🟩 75–90 = Hijau (Zona Aman)
+   - 🟨 51–74 = Kuning (Zona Waspada)
+   - 🟥 0–50  = Merah (Zona Bahaya)
+5) ProDem (Promosi/Demosi):
+   - Aturan diambil dari SCHEME_PRODEM.txt (single source of truth).
+   - Output rekomendasi final **harus** menyebut kategori + alasan singkat + kaitan ke syarat level.
+6) Early Warning System (EWS) aktif bila:
+   - Total skor di Zona Merah; ATAU
+   - Ada pilar kritis ≤2; ATAU
+   - Tidak memenuhi syarat bertahan pada SCHEME_PRODEM.txt.
+7) Coaching & Insight:
+   - Pertanyaan coaching sudah tersedia di assessment.
+   - Jawaban atasan langsung disimpan, lalu diselipkan ke MAGIC SECTION.
+8) Output FINAL HARUS mengikuti [FORMAT_AUDIT] di MASTER_AUDIT_AISG.txt (12 bagian lengkap).
+
+[CHECKLIST PORTING CABANG]
+- Salin paket file ini + PROFILE_INSTRUKSI_AISG.txt + SCHEME_PRODEM.txt + 18_PILAR.txt + QUOTES.txt + STRUKTUR_HIRARKI_[nama_cabang].txt + DATA_[nama_cabang].txt.
+- Ubah [nama_cabang] di PROFILE_INSTRUKSI_AISG.txt.
+- Pastikan file assessment TXT tersedia dengan nama sesuai pola.
+- Jalankan audit per-nama atau audit bertingkat.
+- Engine membaca urutan audit dari tree hirarki.
+
+[LOG TEMPLATE]
+Percobaan 1: [OK/GAGAL - alasan/error]
+Percobaan 2: [OK/GAGAL - alasan/error]
+Percobaan 3: [OK/GAGAL - alasan/error] → [BERHASIL/ABORT]
+
+[ALERT TEMPLATE]
+⚠️ File [nama_file] belum terbaca setelah 3 kali percobaan. Upload ulang file assessment.
+
+[ZODIAK_MODE]
+# Ambil gaya narasi dari umur (Gen Z / Millenial) via ZODIAK_TEMPLATE.txt
+ZODIAK_GENERATION_AUTODETECT = ON
+
+[QUOTE_MODE]
+# Quotes diambil acak dari QUOTES.txt
+# Format:
+# > **"Isi quote..."**
+# > — *NewsMaker* atau *Tokoh Dunia*
+QUOTE_FORMAT_STYLE = MARKDOWN_BLOCK
+QUOTE_ALIGNMENT = CENTER
+
+[MAGIC_SECTION_FORMAT]
+- Julukan → wajib 1 paragraf (makna + relevansi).
+- Narasi motivasi → min. 2 paragraf (kondisi sekarang + peluang depan).
+- Insight Atasan → wajib 1 paragraf reflektif.
+- Zodiak Booster → 1 paragraf penuh (hubungkan sifat zodiak dengan kerja/kaderisasi).
+- Call To Action → naratif 1 paragraf, plus roadmap 30–60–90 hari.
+- Quotes → akhir, center, bold + underline.

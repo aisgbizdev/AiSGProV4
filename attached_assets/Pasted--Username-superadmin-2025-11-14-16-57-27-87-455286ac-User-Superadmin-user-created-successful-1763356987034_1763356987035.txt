@@ -1,0 +1,147 @@
+
+Username: superadmin
+2025-11-14 16:57:27.87
+455286ac
+User
+✅ Superadmin user created successfully!
+
+2025-11-14 16:57:27.87
+455286ac
+User
+Password: vito1007
+2025-11-14 17:04:43.67
+455286ac
+User
+10:04:43 AM [express] GET /api/auth/me 401 in 3ms :: {"error":"Unauthorized","userMessage":"Silakan l…
+2025-11-14 17:04:52.52
+455286ac
+User
+10:04:52 AM [express] POST /api/auth/login 401 in 722ms :: {"error":"Invalid credentials","userMessag…
+2025-11-14 17:05:26.23
+455286ac
+User
+10:05:26 AM [express] POST /api/auth/login 401 in 276ms :: {"error":"Invalid credentials","userMessag…
+2025-11-14 17:05:41.14
+455286ac
+User
+10:05:41 AM [express] POST /api/auth/login 401 in 264ms :: {"error":"Invalid credentials","userMessag…
+2025-11-14 17:06:04.22
+455286ac
+User
+10:06:04 AM [express] POST /api/auth/login 401 in 294ms :: {"error":"Invalid credentials","userMessag…
+2025-11-14 17:06:13.00
+455286ac
+User
+10:06:13 AM [express] POST /api/auth/login 401 in 65ms :: {"error":"Invalid credentials","userMessage…
+2025-11-14 17:07:29.55
+455286ac
+User
+10:07:29 AM [express] POST /api/auth/register 201 in 560ms :: {"success":true,"user":{"id":"1a74b139-…
+2025-11-14 17:07:50.24
+455286ac
+User
+username: 'test1'
+2025-11-14 17:07:50.24
+455286ac
+User
+sessionId: 'b9A_-fDS63EKa8zVWO15qoRneVsRF2XN',
+2025-11-14 17:07:50.24
+455286ac
+User
+}
+2025-11-14 17:07:50.24
+455286ac
+User
+Login successful: {
+2025-11-14 17:07:50.24
+455286ac
+User
+userId: '1a74b139-cdfc-4b56-ba75-e5db30b94374',
+2025-11-14 17:07:50.24
+455286ac
+User
+10:07:50 AM [express] POST /api/auth/login 200 in 340ms :: {"success":true,"user":{"id":"1a74b139-cdf…
+2025-11-14 17:07:50.67
+455286ac
+User
+10:07:50 AM [express] GET /api/enterprise/employees 200 in 146ms :: []
+2025-11-14 17:07:58.99
+455286ac
+User
+dataType: undefined,
+2025-11-14 17:07:58.99
+455286ac
+User
+at async NeonPreparedQuery.execute (file:///home/runner/workspace/node_modules/drizzle-orm/neon-serverless/session.js:76:20)
+2025-11-14 17:07:58.99
+455286ac
+User
+constraint: undefined,
+2025-11-14 17:07:58.99
+455286ac
+User
+detail: undefined,
+2025-11-14 17:07:58.99
+455286ac
+User
+at file:///home/runner/workspace/node_modules/@neondatabase/serverless/index.mjs:1345:74
+2025-11-14 17:07:58.99
+455286ac
+User
+severity: 'ERROR',
+2025-11-14 17:07:58.99
+455286ac
+User
+position: undefined,
+2025-11-14 17:07:58.99
+455286ac
+User
+column: undefined,
+2025-11-14 17:07:58.99
+455286ac
+User
+internalQuery: undefined,
+2025-11-14 17:07:58.99
+455286ac
+User
+internalPosition: undefined,
+2025-11-14 17:07:58.99
+455286ac
+User
+code: '22P02',
+2025-11-14 17:07:58.99
+455286ac
+User
+at async file:///home/runner/workspace/dist/index.js:4482:21 {
+2025-11-14 17:07:58.99
+455286ac
+User
+where: "unnamed portal parameter $1 = '...'",
+2025-11-14 17:07:58.99
+455286ac
+User
+Error fetching personal audit: error: invalid input syntax for type uuid: "check-expiry"
+2025-11-14 17:07:58.99
+455286ac
+User
+schema: undefined,
+2025-11-14 17:07:58.99
+455286ac
+User
+length: 144,
+2025-11-14 17:07:58.99
+455286ac
+User
+file: 'uuid.c',
+2025-11-14 17:07:58.99
+455286ac
+User
+}
+2025-11-14 17:07:58.99
+455286ac
+User
+line: '133',
+2025-11-14 17:07:58.99
+455286ac
+User
+table: undefined,
