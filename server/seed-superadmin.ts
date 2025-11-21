@@ -1,57 +1,51 @@
-/**
- * Seed script to create first superadmin user
- * Run with: npx tsx server/seed-superadmin.ts
- */
+import { Pool } from "pg";
+import bcrypt from "bcrypt";
 
-import { createUser } from "./auth";
-import { db } from "./db";
-import { users } from "@shared/schema";
-import { eq } from "drizzle-orm";
+console.log("👑 Seeding superadmin...");
 
-async function seedSuperadmin() {
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false }
+});
+
+async function seed() {
   try {
-    console.log("🌱 Starting superadmin seed...");
-    
-    // Check if superadmin already exists
-    const [existing] = await db
-      .select()
-      .from(users)
-      .where(eq(users.username, "superadmin"))
-      .limit(1);
-    
-    if (existing) {
-      console.log("⚠️  Superadmin already exists!");
-      console.log("   Username:", existing.username);
-      console.log("   Name:", existing.name);
-      console.log("   Role:", existing.role);
-      console.log("   Created:", existing.createdAt);
-      process.exit(0);
+    const username = "superadmin";
+    const passwordPlain = "vito1007";
+    const passwordHash = await bcrypt.hash(passwordPlain, 10);
+
+    // Cek apakah sudah ada user superadmin
+    const existing = await pool.query(
+      "SELECT id, username FROM users WHERE username = $1 LIMIT 1",
+      [username]
+    );
+
+    if (existing.rows.length > 0) {
+      console.log("⚠️ Superadmin already exists!");
+      console.log("   Username:", existing.rows[0].username);
+      await pool.end();
+      return;
     }
-    
-    // Create superadmin
-    console.log("📝 Creating superadmin account...");
-    const superadmin = await createUser({
-      username: "superadmin",
-      password: "vito1007",
-      name: "AiSG Admin Panel",
-      role: "full_admin",
-    });
-    
-    console.log("✅ Superadmin created successfully!");
-    console.log("   Username:", superadmin.username);
-    console.log("   Name:", superadmin.name);
-    console.log("   Role:", superadmin.role);
-    console.log("   ID:", superadmin.id);
-    console.log("\n🔐 Login credentials:");
+
+    // Insert superadmin
+    await pool.query(
+      `
+      INSERT INTO users (username, password, name, role)
+      VALUES ($1, $2, $3, $4)
+    `,
+      [username, passwordHash, "AiSG Admin Panel", "full_admin"]
+    );
+
+    console.log("✅ Superadmin created!");
     console.log("   Username: superadmin");
     console.log("   Password: vito1007");
-    console.log("\n🎉 You can now login to AiSG!");
-    
-    process.exit(0);
+
+    await pool.end();
   } catch (error) {
     console.error("❌ Error seeding superadmin:", error);
+    await pool.end();
     process.exit(1);
   }
 }
 
-seedSuperadmin();
+seed();
