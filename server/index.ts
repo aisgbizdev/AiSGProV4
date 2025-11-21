@@ -10,52 +10,42 @@ import http from "http";
 import path from "path";
 import { fileURLToPath } from "url";
 
-// =====================================================
-// FIXED PATH FOR RENDER PRODUCTION BUILD
-// Backend: dist/server/index.js
-// Frontend: dist/public/index.html
-// So we must go 2 levels up → dist → public
-// =====================================================
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const clientBuildPath = path.join(__dirname, "../../public");
+
+// Auto-detect build path (compatible for Render)
+const rootDir = path.join(__dirname, "..", "..");           // -> dist/
+const clientBuildPath = path.join(rootDir, "public");       // -> dist/public
+const indexHtml = path.join(clientBuildPath, "index.html");
 
 const app = express();
-
-// Render / Replit proxy
 app.set("trust proxy", 1);
 
-// Extend session typing
+// SESSION SETUP
 declare module "express-session" {
   interface SessionData {
     userId?: string;
   }
 }
-
 declare module "http" {
   interface IncomingMessage {
     rawBody: unknown;
   }
 }
 
-// Memory session store
 const MemStore = MemoryStore(session);
-const memoryStore = new MemStore({
-  checkPeriod: 86400000,
-});
 
-// Session middleware
 app.use(
   session({
-    store: memoryStore,
-    secret: process.env.SESSION_SECRET || "aisg-secret-key-change-in-production",
+    store: new MemStore({ checkPeriod: 86400000 }),
+    secret: process.env.SESSION_SECRET || "aisg-secret",
     resave: false,
     saveUninitialized: false,
     proxy: true,
     cookie: {
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000,
+      maxAge: 86400000,
       sameSite: "lax",
       path: "/",
     },
@@ -72,36 +62,25 @@ app.use(
 
 app.use(express.urlencoded({ extended: false }));
 
-// Excel template header fix
-app.use("/templates/*.xlsx", (_req, res, next) => {
-  res.setHeader(
-    "Content-Type",
-    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-  );
-  res.setHeader(
-    "Content-Disposition",
-    'attachment; filename="employee-upload.xlsx"'
-  );
-  next();
-});
-
-// API logger
+// API LOGGER
 app.use((req, res, next) => {
   const start = Date.now();
-  const pathReq = req.path;
+  const route = req.path;
   let captured: any;
 
-  const original = res.json;
-  res.json = function (data, ...args) {
-    captured = data;
-    return original.apply(res, [data, ...args]);
+  const originalJson = res.json;
+  res.json = function (body, ...args) {
+    captured = body;
+    return originalJson.apply(res, [body, ...args]);
   };
 
   res.on("finish", () => {
-    if (pathReq.startsWith("/api")) {
-      let line = `${req.method} ${pathReq} ${res.statusCode} in ${Date.now() - start}ms`;
+    if (route.startsWith("/api")) {
+      let line = `${req.method} ${route} ${res.statusCode} in ${
+        Date.now() - start
+      }ms`;
       if (captured) line += ` :: ${JSON.stringify(captured)}`;
-      if (line.length > 80) line = line.slice(0, 79) + "…";
+      if (line.length > 90) line = line.slice(0, 89) + "…";
       log(line);
     }
   });
@@ -114,51 +93,35 @@ app.use((req, res, next) => {
 
   app.use("/api/enterprise", enterpriseRoutes);
 
-  // Error Handler
-  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-    res.status(err.status || 500).json({ message: err.message || "Internal Server Error" });
+  app.use((err: any, _req, res: Response, _next) => {
+    res.status(err.status || 500).json({ message: err.message });
     throw err;
   });
 
-  // ================================================
-  // DEV vs PROD BUILD SERVING
-  // ================================================
   if (app.get("env") === "development") {
     await setupVite(app, server);
   } else {
-    // Serve React Build from /dist/public
     app.use(express.static(clientBuildPath));
   }
 
-  // Health Check
-  app.get("/health", (_req, res) => {
+  app.get("/health", (_req, res) =>
     res.json({
       status: "healthy",
       service: "AISG Enterprise",
-      timestamp: Date.now(),
-    });
-  });
+      time: Date.now(),
+    })
+  );
 
-  // ================================================
-  // SPA FALLBACK — React Router
-  // ================================================
   app.get("*", (req, res) => {
     if (req.path.startsWith("/api") || req.path === "/health") {
       return res.status(404).json({ message: "Not found" });
     }
-
-    res.sendFile(path.join(clientBuildPath, "index.html"));
+    res.sendFile(indexHtml);
   });
 
-  const port = parseInt(process.env.PORT || "5000", 10);
+  const port = Number(process.env.PORT || 5000);
   server.listen(port, "0.0.0.0", () => {
-    log(`Server running on port ${port}`);
-
-    // Background: ensure superadmin exists
-    setImmediate(() => {
-      ensureSuperadminExists().catch((err) =>
-        console.error("Error ensuring superadmin exists:", err)
-      );
-    });
+    log(`🚀 AISG server running on ${port}`);
+    setImmediate(() => ensureSuperadminExists());
   });
 })();
