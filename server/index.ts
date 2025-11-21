@@ -4,14 +4,22 @@ import MemoryStore from "memorystore";
 import connectPgSimple from "connect-pg-simple";
 import { registerRoutes } from "./routes";
 import enterpriseRoutes from "./routes/enterprise";
-import { setupVite, serveStatic, log } from "./vite";
+import { setupVite, log } from "./vite";
 import { ensureSuperadminExists } from "./auth";
 import http from "http";
+
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+// Client build Vite ada di dist/ (dua level di atas dist/server/index.js)
+const clientDist = path.join(__dirname, "../..");
 
 const app = express();
 
 // Trust proxy (Replit uses proxy)
-app.set('trust proxy', 1);
+app.set("trust proxy", 1);
 
 // Session configuration
 declare module "express-session" {
@@ -20,52 +28,62 @@ declare module "express-session" {
   }
 }
 
-declare module 'http' {
+declare module "http" {
   interface IncomingMessage {
-    rawBody: unknown
+    rawBody: unknown;
   }
 }
 
 // Initialize MemoryStore for sessions (instant startup - no database dependency)
-// Will be used until PostgreSQL session store is ready
 const MemStore = MemoryStore(session);
 const memoryStore = new MemStore({
   checkPeriod: 86400000, // prune expired entries every 24h
 });
 
-// Session middleware (initially uses MemoryStore for instant startup)
-app.use(session({
-  store: memoryStore,
-  secret: process.env.SESSION_SECRET || "aisg-secret-key-change-in-production",
-  resave: false,
-  saveUninitialized: false,
-  proxy: true,
-  cookie: {
-    secure: process.env.NODE_ENV === "production",
-    httpOnly: true,
-    maxAge: 24 * 60 * 60 * 1000,
-    sameSite: "lax",
-    path: "/",
-  },
-}));
+// Session middleware
+app.use(
+  session({
+    store: memoryStore,
+    secret: process.env.SESSION_SECRET || "aisg-secret-key-change-in-production",
+    resave: false,
+    saveUninitialized: false,
+    proxy: true,
+    cookie: {
+      secure: process.env.NODE_ENV === "production",
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000,
+      sameSite: "lax",
+      path: "/",
+    },
+  })
+);
 
-app.use(express.json({
-  verify: (req, _res, buf) => {
-    req.rawBody = buf;
-  }
-}));
+app.use(
+  express.json({
+    verify: (req, _res, buf) => {
+      req.rawBody = buf;
+    },
+  })
+);
 app.use(express.urlencoded({ extended: false }));
 
 // Set proper Content-Type for Excel files
-app.use('/templates/*.xlsx', (req, res, next) => {
-  res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-  res.setHeader('Content-Disposition', 'attachment; filename="employee-upload.xlsx"');
+app.use("/templates/*.xlsx", (_req, res, next) => {
+  res.setHeader(
+    "Content-Type",
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+  );
+  res.setHeader(
+    "Content-Disposition",
+    'attachment; filename="employee-upload.xlsx"'
+  );
   next();
 });
 
+// Simple API logger
 app.use((req, res, next) => {
   const start = Date.now();
-  const path = req.path;
+  const pathReq = req.path;
   let capturedJsonResponse: Record<string, any> | undefined = undefined;
 
   const originalResJson = res.json;
@@ -76,8 +94,8 @@ app.use((req, res, next) => {
 
   res.on("finish", () => {
     const duration = Date.now() - start;
-    if (path.startsWith("/api")) {
-      let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
+    if (pathReq.startsWith("/api")) {
+      let logLine = `${req.method} ${pathReq} ${res.statusCode} in ${duration}ms`;
       if (capturedJsonResponse) {
         logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
       }
@@ -95,10 +113,11 @@ app.use((req, res, next) => {
 
 (async () => {
   const server = await registerRoutes(app);
-  
-  // Register enterprise routes (BAS upload, employee management, audits)
-  app.use('/api/enterprise', enterpriseRoutes);
 
+  // Enterprise routes (BAS upload, employee management, audits)
+  app.use("/api/enterprise", enterpriseRoutes);
+
+  // Error handler
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
@@ -107,68 +126,48 @@ app.use((req, res, next) => {
     throw err;
   });
 
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
+  // Dev vs Production client serving
   if (app.get("env") === "development") {
     await setupVite(app, server);
   } else {
-  // === STATIC SERVE FIX FOR RENDER ===
-
-  import path from "path";
-  import { fileURLToPath } from "url";
-
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = path.dirname(__filename);
-
-  // DIST root folder (client build output)
-  const clientDist = path.join(__dirname, "../..");
-
-  // Serve static files
-  app.use(express.static(clientDist));
-
-  // SPA fallback
-  app.get("*", (_req, res) => {
-    res.sendFile(path.join(clientDist, "index.html"));
-  });
+    // >>> STATIC SERVE UNTUK RENDER <<<
+    // Serve file hasil build Vite dari folder dist/
+    app.use(express.static(clientDist));
   }
 
-  // Add health check endpoint for deployment monitoring
-  // ONLY /health returns JSON - / serves the frontend app
+  // Health check endpoint (JSON only)
   app.get("/health", (_req, res) => {
-    res.writeHead(200, { 
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-cache'
+    res.writeHead(200, {
+      "Content-Type": "application/json",
+      "Cache-Control": "no-cache",
     });
-    res.end(JSON.stringify({ 
-      status: "healthy", 
-      service: "AISG Enterprise",
-      timestamp: Date.now()
-    }));
+    res.end(
+      JSON.stringify({
+        status: "healthy",
+        service: "AISG Enterprise",
+        timestamp: Date.now(),
+      })
+    );
   });
-  
-  // ALWAYS serve the app on the port specified in the environment variable PORT
-  // Other ports are firewalled. Default to 5000 if not specified.
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
-  const port = parseInt(process.env.PORT || '5000', 10);
+
+  // SPA fallback: semua route selain /api & /health diarahkan ke index.html
+  app.get("*", (req, res) => {
+    // biar /api gak ke-override
+    if (req.path.startsWith("/api") || req.path === "/health") {
+      return res.status(404).json({ message: "Not found" });
+    }
+    res.sendFile(path.join(clientDist, "index.html"));
+  });
+
+  const port = parseInt(process.env.PORT || "5000", 10);
   server.listen(port, "0.0.0.0", () => {
     log(`serving on port ${port}`);
-    
-    // ========================================
-    // BACKGROUND INITIALIZATION (after server ready)
-    // These operations run OUTSIDE request flow to avoid blocking health checks
-    // ========================================
-    
-    // Initialize superadmin user in background (non-blocking)
+
+    // Background init superadmin
     setImmediate(() => {
       ensureSuperadminExists().catch((error) => {
         console.error("Error ensuring superadmin exists:", error);
       });
     });
-    
-    // Note: Using MemoryStore for sessions to ensure instant startup
-    // For production persistent sessions, consider migrating to PostgreSQL
-    // session store after app is stable, or use external session management
   });
 })();
