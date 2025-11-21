@@ -5,19 +5,22 @@
   "license": "MIT",
   "scripts": {
     "dev": "NODE_ENV=development tsx server/index.ts",
-    "build": "vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
-    "start": "NODE_ENV=production node dist/index.js",
+
+    "build": "vite build && esbuild server/index.ts server/run-migration.ts server/seed-superadmin.ts --platform=node --packages=external --bundle --format=esm --outdir=dist/server",
+
+    "start": "NODE_ENV=production node dist/server/index.js",
+
     "check": "tsc",
+
+    "postbuild": "node dist/server/run-migration.js && node dist/server/seed-superadmin.js",
+
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:push:force": "drizzle-kit push --force",
-    "db:push:personal": "drizzle-kit push --config drizzle.personal.config.ts",
-    "postbuild": "node dist/server/run-migration.js && node dist/server/seed-superadmin.js",
-    "generate": "drizzle-kit generate",
-    "migrate": "drizzle-kit push"
-
-  },
+    "db:push:personal": "drizzle-kit push --config drizzle.personal.config.ts"
+  }
+},
   "dependencies": {
     "@google/genai": "^1.27.0",
     "@hookform/resolvers": "^3.10.0",
