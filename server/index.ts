@@ -10,24 +10,22 @@ import http from "http";
 import path from "path";
 import { fileURLToPath } from "url";
 
-// =========================
-// PATH FIX FOR RENDER / DIST
-// =========================
+// =====================================================
+// FIXED PATH FOR RENDER PRODUCTION BUILD
+// Backend: dist/server/index.js
+// Frontend: dist/public/index.html
+// So we must go 2 levels up → dist → public
+// =====================================================
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-// IMPORTANT:
-// Backend = dist/server/
-// Frontend = dist/
-// So we must go 2 levels up from dist/server to dist/
-const clientBuildPath = path.join(__dirname, "../../dist");
+const clientBuildPath = path.join(__dirname, "../../public");
 
 const app = express();
 
-// Trust proxy (Render/Replit uses proxy)
+// Render / Replit proxy
 app.set("trust proxy", 1);
 
-// Session configuration
+// Extend session typing
 declare module "express-session" {
   interface SessionData {
     userId?: string;
@@ -40,6 +38,7 @@ declare module "http" {
   }
 }
 
+// Memory session store
 const MemStore = MemoryStore(session);
 const memoryStore = new MemStore({
   checkPeriod: 86400000,
@@ -73,7 +72,7 @@ app.use(
 
 app.use(express.urlencoded({ extended: false }));
 
-// Excel template headers
+// Excel template header fix
 app.use("/templates/*.xlsx", (_req, res, next) => {
   res.setHeader(
     "Content-Type",
@@ -86,25 +85,22 @@ app.use("/templates/*.xlsx", (_req, res, next) => {
   next();
 });
 
-// Logging for /api requests
+// API logger
 app.use((req, res, next) => {
   const start = Date.now();
   const pathReq = req.path;
-  let capturedJsonResponse: Record<string, any> | undefined = undefined;
+  let captured: any;
 
-  const originalResJson = res.json;
-  res.json = function (bodyJson, ...args) {
-    capturedJsonResponse = bodyJson;
-    return originalResJson.apply(res, [bodyJson, ...args]);
+  const original = res.json;
+  res.json = function (data, ...args) {
+    captured = data;
+    return original.apply(res, [data, ...args]);
   };
 
   res.on("finish", () => {
     if (pathReq.startsWith("/api")) {
-      const duration = Date.now() - start;
-      let line = `${req.method} ${pathReq} ${res.statusCode} in ${duration}ms`;
-      if (capturedJsonResponse) {
-        line += ` :: ${JSON.stringify(capturedJsonResponse)}`;
-      }
+      let line = `${req.method} ${pathReq} ${res.statusCode} in ${Date.now() - start}ms`;
+      if (captured) line += ` :: ${JSON.stringify(captured)}`;
       if (line.length > 80) line = line.slice(0, 79) + "…";
       log(line);
     }
@@ -118,44 +114,39 @@ app.use((req, res, next) => {
 
   app.use("/api/enterprise", enterpriseRoutes);
 
-  // Error handler
+  // Error Handler
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-    const status = err.status || 500;
-    const message = err.message || "Internal Server Error";
-    res.status(status).json({ message });
+    res.status(err.status || 500).json({ message: err.message || "Internal Server Error" });
     throw err;
   });
 
-  // DEV vs PROD
+  // ================================================
+  // DEV vs PROD BUILD SERVING
+  // ================================================
   if (app.get("env") === "development") {
     await setupVite(app, server);
   } else {
-    // STATIC SERVE FIX FOR RENDER
+    // Serve React Build from /dist/public
     app.use(express.static(clientBuildPath));
   }
 
-  // Health endpoint
+  // Health Check
   app.get("/health", (_req, res) => {
-    res.writeHead(200, {
-      "Content-Type": "application/json",
-      "Cache-Control": "no-cache",
+    res.json({
+      status: "healthy",
+      service: "AISG Enterprise",
+      timestamp: Date.now(),
     });
-    res.end(
-      JSON.stringify({
-        status: "healthy",
-        service: "AISG Enterprise",
-        timestamp: Date.now(),
-      })
-    );
   });
 
-  // SPA FALLBACK — Handle React Router
+  // ================================================
+  // SPA FALLBACK — React Router
+  // ================================================
   app.get("*", (req, res) => {
     if (req.path.startsWith("/api") || req.path === "/health") {
       return res.status(404).json({ message: "Not found" });
     }
 
-    // Serve frontend index.html
     res.sendFile(path.join(clientBuildPath, "index.html"));
   });
 
@@ -163,11 +154,11 @@ app.use((req, res, next) => {
   server.listen(port, "0.0.0.0", () => {
     log(`Server running on port ${port}`);
 
-    // Ensure superadmin exists (non-blocking)
+    // Background: ensure superadmin exists
     setImmediate(() => {
-      ensureSuperadminExists().catch((err) => {
-        console.error("Error ensuring superadmin exists:", err);
-      });
+      ensureSuperadminExists().catch((err) =>
+        console.error("Error ensuring superadmin exists:", err)
+      );
     });
   });
 })();
