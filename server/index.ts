@@ -113,7 +113,24 @@ app.use((req, res, next) => {
   if (app.get("env") === "development") {
     await setupVite(app, server);
   } else {
-    serveStatic(app);
+  // === STATIC SERVE FIX FOR RENDER ===
+
+  import path from "path";
+  import { fileURLToPath } from "url";
+
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+
+  // DIST root folder (client build output)
+  const clientDist = path.join(__dirname, "../..");
+
+  // Serve static files
+  app.use(express.static(clientDist));
+
+  // SPA fallback
+  app.get("*", (_req, res) => {
+    res.sendFile(path.join(clientDist, "index.html"));
+  });
   }
 
   // Add health check endpoint for deployment monitoring
