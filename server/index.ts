@@ -1,7 +1,6 @@
 import express, { type Request, Response, NextFunction } from "express";
 import session from "express-session";
 import MemoryStore from "memorystore";
-import connectPgSimple from "connect-pg-simple";
 import { registerRoutes } from "./routes";
 import enterpriseRoutes from "./routes/enterprise";
 import { setupVite, log } from "./vite";
@@ -11,14 +10,21 @@ import http from "http";
 import path from "path";
 import { fileURLToPath } from "url";
 
+// =========================
+// PATH FIX FOR RENDER / DIST
+// =========================
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-// Client build Vite ada di dist/ (dua level di atas dist/server/index.js)
-const clientDist = path.join(__dirname, "../..");
+
+// IMPORTANT:
+// Backend = dist/server/
+// Frontend = dist/
+// So we must go 2 levels up from dist/server to dist/
+const clientBuildPath = path.join(__dirname, "../../dist");
 
 const app = express();
 
-// Trust proxy (Replit uses proxy)
+// Trust proxy (Render/Replit uses proxy)
 app.set("trust proxy", 1);
 
 // Session configuration
@@ -34,10 +40,9 @@ declare module "http" {
   }
 }
 
-// Initialize MemoryStore for sessions (instant startup - no database dependency)
 const MemStore = MemoryStore(session);
 const memoryStore = new MemStore({
-  checkPeriod: 86400000, // prune expired entries every 24h
+  checkPeriod: 86400000,
 });
 
 // Session middleware
@@ -65,9 +70,10 @@ app.use(
     },
   })
 );
+
 app.use(express.urlencoded({ extended: false }));
 
-// Set proper Content-Type for Excel files
+// Excel template headers
 app.use("/templates/*.xlsx", (_req, res, next) => {
   res.setHeader(
     "Content-Type",
@@ -80,7 +86,7 @@ app.use("/templates/*.xlsx", (_req, res, next) => {
   next();
 });
 
-// Simple API logger
+// Logging for /api requests
 app.use((req, res, next) => {
   const start = Date.now();
   const pathReq = req.path;
@@ -93,18 +99,14 @@ app.use((req, res, next) => {
   };
 
   res.on("finish", () => {
-    const duration = Date.now() - start;
     if (pathReq.startsWith("/api")) {
-      let logLine = `${req.method} ${pathReq} ${res.statusCode} in ${duration}ms`;
+      const duration = Date.now() - start;
+      let line = `${req.method} ${pathReq} ${res.statusCode} in ${duration}ms`;
       if (capturedJsonResponse) {
-        logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
+        line += ` :: ${JSON.stringify(capturedJsonResponse)}`;
       }
-
-      if (logLine.length > 80) {
-        logLine = logLine.slice(0, 79) + "…";
-      }
-
-      log(logLine);
+      if (line.length > 80) line = line.slice(0, 79) + "…";
+      log(line);
     }
   });
 
@@ -114,28 +116,25 @@ app.use((req, res, next) => {
 (async () => {
   const server = await registerRoutes(app);
 
-  // Enterprise routes (BAS upload, employee management, audits)
   app.use("/api/enterprise", enterpriseRoutes);
 
   // Error handler
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-    const status = err.status || err.statusCode || 500;
+    const status = err.status || 500;
     const message = err.message || "Internal Server Error";
-
     res.status(status).json({ message });
     throw err;
   });
 
-  // Dev vs Production client serving
+  // DEV vs PROD
   if (app.get("env") === "development") {
     await setupVite(app, server);
   } else {
-    // >>> STATIC SERVE UNTUK RENDER <<<
-    // Serve file hasil build Vite dari folder dist/
-    app.use(express.static(clientDist));
+    // STATIC SERVE FIX FOR RENDER
+    app.use(express.static(clientBuildPath));
   }
 
-  // Health check endpoint (JSON only)
+  // Health endpoint
   app.get("/health", (_req, res) => {
     res.writeHead(200, {
       "Content-Type": "application/json",
@@ -150,23 +149,24 @@ app.use((req, res, next) => {
     );
   });
 
-  // SPA fallback: semua route selain /api & /health diarahkan ke index.html
+  // SPA FALLBACK — Handle React Router
   app.get("*", (req, res) => {
-    // biar /api gak ke-override
     if (req.path.startsWith("/api") || req.path === "/health") {
       return res.status(404).json({ message: "Not found" });
     }
-    res.sendFile(path.join(clientDist, "index.html"));
+
+    // Serve frontend index.html
+    res.sendFile(path.join(clientBuildPath, "index.html"));
   });
 
   const port = parseInt(process.env.PORT || "5000", 10);
   server.listen(port, "0.0.0.0", () => {
-    log(`serving on port ${port}`);
+    log(`Server running on port ${port}`);
 
-    // Background init superadmin
+    // Ensure superadmin exists (non-blocking)
     setImmediate(() => {
-      ensureSuperadminExists().catch((error) => {
-        console.error("Error ensuring superadmin exists:", error);
+      ensureSuperadminExists().catch((err) => {
+        console.error("Error ensuring superadmin exists:", err);
       });
     });
   });
