@@ -1,7 +1,9 @@
+import pkg from "pg";
 import { migrate } from "drizzle-orm/node-postgres/migrator";
 import { drizzle } from "drizzle-orm/node-postgres";
-import { Pool } from "pg";
 import * as schema from "../shared/schema";
+
+const { Pool } = pkg;
 
 console.log("🚀 Running migration...");
 
